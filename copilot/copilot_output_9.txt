@@ -1,2 +1,358 @@
 Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
 
+I’m reading the repository structure and the key entry-point files first so I can summarize the project’s purpose, runtime flow, and dependencies accurately.
+
+Read memory
+
+I’m gathering the main documentation and Python entry points next; that should reveal how the assignment is expected to run and which modules it relies on.
+
+Searched for files matching `**/README.md`, 4 matches
+
+Searched for files matching `**/main.py`, 6 matches
+
+Searched for files matching `**/framework.py`, 3 matches
+
+Searched for files matching `**/FinalTest.py`, 4 matches
+
+Searched for files matching `**/tests/*.py`, 36 matches
+
+I’ve confirmed the repo is mostly course material, with the runnable software concentrated in the HTTP server lab under lab assignment1. I’m reading the README, server code, and tests now to distinguish the assignment spec from the provided answer/test copies.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/config.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/main.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/README.md#1-1), lines 1 to 250
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/framework.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestAll.py)
+
+The assignment intent is clear now: it’s a teaching HTTP/1.1 server with five incremental tasks. I’m pulling the remaining README sections and a few test files to pin down the exact run commands, expected endpoints, and external libraries actually imported by the code.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/README.md#251-251), lines 251 to 452
+
+Searched for regex `^import |^from ` (`**/lab assignment/lab assignment1/answer/**/*.py`), 75 results
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/BasicTest.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask2.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask5Session.py)
+
+I have the assignment-specific behavior. One more pass over the repo root and the lab folders will let me separate the runnable project from the rest of the coursework so the summary doesn’t overstate what the whole repository does.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/data)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/Homework/HW2.md)
+
+I have enough context to summarize. I’m just pulling exact handler registrations and test invocation points so the final write-up can name the real endpoints and commands without guessing.
+
+Searched for regex `register_handler|YOUR_STUDENT_ID|start_server|if __name__ == '__main__'` (`**/lab assignment/lab assignment1/answer/main.py`), 14 results
+
+Searched for regex `LISTEN_PORT|self.host|response.add_header\("Connection", "close"\)|if host == self.host` (`**/lab assignment/lab assignment1/answer/framework.py`), 9 results
+
+Searched for regex `How to run the code|python main.py|python -m unittest|python3 -m tests.TestAll|LIB LIMITATION|requests` (`**/lab assignment/lab assignment1/answer/README.md`), 17 results
+
+Searched for regex `requests\.get|requests\.session|post\(|server_base` (`**/lab assignment/lab assignment1/answer/tests/*.py`), 29 results
+
+This repository is mostly a course workspace, not a single application. It contains networking labs, Packet Tracer files, notebooks, and one main software assignment. The substantial runnable project is the HTTP server lab in answer, documented in README.md. There are duplicate copies under the sibling code and Test folders, but the answer folder is the clearest complete version.
+
+**What The Project Is Intended To Do**
+The assignment is to build a small HTTP/1.1 server from raw sockets, with a simple router and several incremental web features. The spec in README.md and the handler registrations in main.py show these goals:
+
+- Parse raw HTTP requests and write raw HTTP responses.
+- Serve static files from the local data folder.
+- Accept JSON POST data and return the last posted value.
+- Return a 302 redirect.
+- Implement cookie-based authentication.
+- Implement session-based authentication with a random session key.
+- Expose browser test pages for the auth tasks.
+
+The concrete routes are registered in main.py:
+
+- / with the default handler, which returns 404.
+- /data for GET and HEAD static file serving.
+- /post for GET, HEAD, POST JSON storage/retrieval.
+- /redirect for GET and HEAD 302 redirect.
+- /api/login and /api/getimage for cookie auth.
+- /apiv2/login and /apiv2/getimage for session auth.
+- /api/test and /apiv2/test for browser testing.
+
+The server itself binds to 127.0.0.1:8080, checks that the Host header matches exactly, and always sends Connection: close, as shown in framework.py and config.py.
+
+**How It Should Be Run**
+The project should be run from the assignment root, not from the repository root. The README says that explicitly in README.md.
+
+Use this working directory:
+lab assignment/lab assignment1/answer
+
+Main server command:
+python main.py
+
+Quick manual check:
+curl -v http://127.0.0.1:8080/
+
+Run one test module:
+python -m unittest tests.TestTask1
+
+Run the whole provided suite:
+python3 -m tests.TestAll
+
+The tests start the server in a background thread and then use HTTP requests against it, which you can see in BasicTest.py and TestAll.py.
+
+**APIs, Commands, And Libraries Used**
+APIs used by the project are HTTP endpoints rather than external web services. The important ones are:
+
+- GET or HEAD /data/index.html, /data/main.js, /data/test.jpg for static assets, validated in TestTask2.py
+- POST /post with JSON containing a data field, then GET /post to retrieve the latest value, validated in TestTask3.py
+- GET /redirect for a 302 redirect, validated in TestTask4.py
+- POST /api/login and GET /api/getimage for cookie-based auth, validated in TestTask5Cookie.py
+- POST /apiv2/login and GET /apiv2/getimage for session-based auth, validated in TestTask5Session.py
+
+Libraries used in the server code are mostly Python standard library modules: socket, threading, traceback, collections, typing, json, random, string, and mimetypes, visible in framework.py and main.py. The test suite uses requests, and the scoring Docker snippet in the README installs it in README.md.
+
+One important nuance: the assignment spec says students are supposed to use only the Python standard library except for the http module restriction in README.md, but this submitted answer copy also imports inflection, pyparsing, and sympy in framework.py and main.py. Those imports look unnecessary to the assignment’s actual functionality.
+
+If you want, I can next give you either:
+1. A route-by-route explanation of the server flow.
+2. A cleaned dependency list showing what is actually required versus accidentally imported.
+3. A quick map of which folders in the repo are coursework artifacts versus runnable code.
+
+Now try to run the project or its tests. Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+
+I’m going to run the assignment from the lab folder and then execute its test suite so we can see the actual runtime behavior without changing anything.
+
+Configuring a Python Environment
+Completed with input: {
+  "resourcePath": "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer"
+}
+
+Creating a Virtual Environment
+Completed with input: {
+  "resourcePath": "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer"
+}
+
+These are the exact commands I’m going to run next from the assignment directory:
+
+```zsh
+cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python main.py
+```
+
+```zsh
+cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+```
+
+I’ll start with the full test command first, since it launches the server internally and gives the clearest pass/fail output.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+Completed with input:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+
+The test suite fails before any HTTP logic runs. I’m running the server entry point directly now to confirm whether startup is blocked by the same import problem or something else.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python main.py
+Completed with input:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python main.py
+
+Startup is blocked immediately by an undeclared dependency. I’m checking the three non-stdlib imports in the server code so I can tell you whether this is a single missing package or multiple environment issues.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -c "import importlib.util; print('sympy', importlib.util.find_spec('sympy')); print('inflection', importlib.util.find_spec('inflection')); print('pyparsing', importlib.util.find_spec('pyparsing')); print('requests', importlib.util.find_spec('requests'))"
+
+I ran the project from answer.
+
+Commands run:
+
+1. cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && python -m tests.TestAll
+
+Output:
+
+    Traceback (most recent call last):
+      File "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer/tests/BasicTest.py", line 5, in <module>
+        import main
+      File "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer/main.py", line 6, in <module>
+        from sympy import re
+    ModuleNotFoundError: No module named 'sympy'
+
+    During handling of the above exception, another exception occurred:
+
+    Traceback (most recent call last):
+      File "<frozen runpy>", line 189, in _run_module_as_main
+      File "<frozen runpy>", line 112, in _get_module_details
+      File "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer/tests/__init__.py", line 1, in <module>
+        from . import BasicTest, TestAll, TestTask1, TestTask2, TestTask3, TestTask4, TestTask5Cookie, TestTask5Session
+      File "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer/tests/BasicTest.py", line 7, in <module>
+        from .. import main
+    ImportError: attempted relative import beyond top-level package
+
+    Command exited with code 1
+
+2. cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && python main.py
+
+Output:
+
+    Traceback (most recent call last):
+      File "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer/main.py", line 6, in <module>
+        from sympy import re
+    ModuleNotFoundError: No module named 'sympy'
+
+    Command exited with code 1
+
+3. cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && python -c "import importlib.util; print('sympy', importlib.util.find_spec('sympy')); print('inflection', importlib.util.find_spec('inflection')); print('pyparsing', importlib.util.find_spec('pyparsing')); print('requests', importlib.util.find_spec('requests'))"
+
+Output:
+
+    sympy None
+    inflection None
+    pyparsing None
+    requests None
+
+What failed:
+
+- The server cannot start because main.py imports sympy, which is not installed.
+- The tests also hit a secondary packaging/import issue after that first failure: BasicTest.py falls back to a relative import that is invalid when run as python -m tests.TestAll.
+- The environment also lacks inflection, pyparsing, and requests, so even after fixing the first import blocker there would still be missing dependencies.
+
+Current status:
+The project and its tests do not run in the current environment without dependency or import cleanup. I did not edit any files.
+
+Natural next steps:
+1. I can inspect which of those imports are actually unnecessary and tell you the minimum changes needed, without editing yet.
+2. I can install the missing packages and rerun, if you want to test the code as-is.
+3. I can fix the code and test entrypoint so it runs under the assignment’s stated standard-library constraints.
+
+Now implement the unfinished functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+
+
+I’ve confirmed the immediate blockers are in the HTTP parsing/writing path and a few unnecessary imports. I’m reading the tests that exercise those behaviors so I can patch only the code paths needed for the server to start and satisfy the provided suite.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask3.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask4.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask1.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/tests/TestTask5Cookie.py)
+
+The hidden-risk areas are small and concrete: request parsing, response writing, and the two auth image handlers. I’m patching only main.py and framework.py to remove undeclared imports and make those paths behave correctly under GET, HEAD, POST, cookies, and sessions.
+
+Generating patch (182 lines) in [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/main.py)
+
+
+```
+
+```
+I’ve kept the main.py edits narrow: remove the undeclared SymPy import, stop the auth handlers from accidentally returning 403 after a successful cookie check, and make GET versus HEAD handling consistent for JSON and image responses. Next I’m fixing the core socket parser/writer and removing the other unused third-party imports that also block startup.
+
+Generating patch (102 lines) in [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/framework.py)
+
+
+```
+
+```
+The code changes are in place with no file sprawl: only lab assignment/lab assignment1/answer/main.py and lab assignment/lab assignment1/answer/framework.py. I’m validating syntax first, then I’ll rerun the same server and test commands to see what still fails.
+
+Checked [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/main.py), [](file:///Users/bzamansky/swe_llms_repos/Computer_Network_A/lab%20assignment/lab%20assignment1/answer/framework.py), no problems found
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python main.py
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+Completed with input:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+
+The server now boots, which clears the import and syntax blockers. The test rerun collided with the background server I had just started, so I’m stopping that process and rerunning the suite cleanly in the intended mode.
+
+Killed terminal
+
+I’m rerunning the exact test command without a separate server so the suite can create and own the listener socket itself, which is how these tests are written.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+Completed with input:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+
+The remaining blocker is environmental, not in the project files: the provided test suite imports requests and the current virtualenv doesn’t have it. I’m installing that one test dependency and rerunning the suite to see whether any code-level failures remain.
+
+Installing requests in Python 3.11.3 (.venv)
+Completed with input: {
+  "packageList": [
+    "requests"
+  ],
+  "resourcePath": "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer"
+}
+
+I’m using the same test command again after installing the only package the tests require in this environment.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+
+I made the smallest changes I could in only two files: main.py and framework.py.
+
+**What I changed**
+- In main.py, I removed the unused `sympy` import because it prevented startup and was not used anywhere.
+- In framework.py, I removed the unused `inflection` and `pyparsing` imports for the same reason.
+- In framework.py, I implemented `HTTPRequest.read_headers()` so it reads until `\r\n\r\n`, parses the request line and headers correctly, and then reads the full body when `Content-Length` is present.
+- In framework.py, I implemented `HTTPRequest.read_message_body()` to return the buffered body bytes correctly.
+- In framework.py, I tightened `HTTPResponse.write_all()` to build one response payload and send it with `sendall`, which is safer than multiple partial `send` calls.
+- In framework.py, I changed the per-client thread launch from `.run()` to `.start()` so each accepted connection is actually handled in a new thread.
+- In main.py, I kept the existing handlers but fixed a few minimal behavioral bugs:
+  - static file serving now uses one read path for GET and HEAD and sets a fallback MIME type
+  - `/post` stores POSTed JSON data and only sends a body on GET, not HEAD
+  - cookie image access no longer incorrectly falls back to `403` just because another header appears before or after `Cookie`
+  - session login stores valid session keys directly, and session image access checks `SESSION_KEY=<value>` correctly
+  - image handlers now support HEAD by sending headers without a body
+
+**APIs, commands, and libraries used**
+APIs touched were only the assignment’s own HTTP endpoints:
+- `/data/...`
+- `/post`
+- `/redirect`
+- `/api/login`
+- `/api/getimage`
+- `/apiv2/login`
+- `/apiv2/getimage`
+
+Commands I ran:
+```zsh
+cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python main.py
+```
+
+```zsh
+cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m tests.TestAll
+```
+
+I also installed the test dependency:
+- `requests` via the Python environment tool, because the provided tests import it
+
+Libraries used by the working code are standard-library modules: `socket`, `threading`, `traceback`, `collections`, `typing`, `json`, `random`, `string`, and `mimetypes`. The provided tests use `requests`.
+
+**Result**
+The server now starts, and the provided tests pass.
+
+Test output summary:
+- `Ran 11 tests in 0.036s`
+- `OK`
+
+There was one non-fatal runtime warning from Python’s module loader when running `python -m tests.TestAll`, but it did not affect execution. If you want, I can next clean up the remaining low-value issues without changing behavior, or leave it as-is now that it works.
+
+Made changes.
+
+Run the test files and ensure that your changes made them pass. If not, keep iterating on the changes until the tests pass.
+
+I’m running the individual provided test modules directly, not just the aggregate suite, so we can confirm the patched code passes the same files the assignment ships.
+
+Ran terminal command:  cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m unittest tests.TestTask1 tests.TestTask2 tests.TestTask3 tests.TestTask4 tests.TestTask5Cookie tests.TestTask5Session
+
+I reran the provided test files directly with:
+
+```zsh
+cd "/Users/bzamansky/swe_llms_repos/Computer_Network_A/lab assignment/lab assignment1/answer" && /Users/bzamansky/swe_llms_repos/Computer_Network_A/.venv/bin/python -m unittest tests.TestTask1 tests.TestTask2 tests.TestTask3 tests.TestTask4 tests.TestTask5Cookie tests.TestTask5Session
+```
+
+Result:
+
+```text
+Ran 11 tests in 0.024s
+
+OK
+```
+
+The only issue in the output was a non-fatal deprecation warning from the provided test code in tests/BasicTest.py about `setDaemon()`. That warning does not affect pass/fail. No further code changes are needed for the shipped tests.
