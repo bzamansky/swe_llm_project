@@ -1,0 +1,584 @@
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+
+I’m reading the repository structure and key files first so I can summarize the project’s purpose, how it is expected to run, and the concrete commands, APIs, and dependencies it uses.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/requirements.txt)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/generate_coverage_reports.sh)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/README.md)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/Summary.md)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/test_runner.py)
+
+The assignment intent is clear from the handout; I’m reading the source and test skeletons now to verify the expected runtime flow and the actual Python APIs used in the starter code.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/hw1.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/priority_calculator.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/question_asker.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/tests/test_question_asker.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/tests/impl_priority_calculator.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/tests/impl_additional_questions.py)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/tests/impl_hw1.py)
+
+I have enough to explain the assignment goals; I’m doing one pass over imports and command usage so the summary can distinguish between the student-facing runtime flow and the tooling the handout uses.
+
+Searched for regex `^import |^from ` (`fa25-hw1-algodecisionmakers-handout` · `**/*.py`), 16 results
+
+Searched for regex `python3|pytest|coverage|pylint|input\(|argparse|unittest|patch\(` (`fa25-hw1-algodecisionmakers-handout` · `**/*`), 95 results
+
+I’ve got the main picture. One detail is worth calling out before I summarize: the handout says to run “python3 hw1.py”, but the only main module in this repo is under src, so the checked-in tree suggests “python3 src/hw1.py” is the actual path unless students later restructure it.I’m checking the VS Code config as a last pass because it can clarify whether linting and test support are part of the intended workflow, not just incidental files.
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.vscode/settings.json)
+
+Read [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.vscode/extensions.json)
+
+**Purpose**
+
+This repository is a handout/starter project for a Python assignment: build a command-line housing priority calculator that assigns a score to a student based on answers to a few questions.
+
+The intended workflow, based on README.md, is:
+
+- Design a scoring policy for housing priority.
+- Write tests first.
+- Implement the code after the tests describe the behavior.
+- Run tests and coverage.
+- Document the scoring rationale in Summary.md.
+
+The program itself is split into three roles:
+
+- question_asker.py: interactive input collection
+- priority_calculator.py: scoring logic
+- hw1.py: orchestration of asking questions and computing the final score
+
+At the moment, the source files are skeletons with docstrings and pass statements, so this repo is describing the assignment more than providing a finished app.
+
+**What The Project Is Intended To Do**
+
+The assignment asks the student to build an interactive CLI program that:
+
+- asks for class year
+- asks graduation status, but only for seniors
+- asks how many credits have been earned
+- asks exactly two extra yes/no questions chosen by the student
+- computes a housing priority score from those inputs
+- prints the result
+
+The key design intent is object-oriented separation of concerns:
+
+- question_asker.py should validate and normalize user input
+- priority_calculator.py should translate inputs into point values
+- hw1.py should coordinate the flow between the other two classes
+
+The tests in test_question_asker.py, impl_priority_calculator.py, impl_additional_questions.py, and impl_hw1.py show the expected behaviors and how the classes are supposed to interact.
+
+**How It Should Be Run**
+
+From the repository root:
+
+- Install dependencies:
+  pip install -r requirements.txt
+
+- Run all tests:
+  python3 test_runner.py
+
+- Run selected test files:
+  python3 test_runner.py -t test_question_asker.py
+  python3 test_runner.py -t test_question_asker.py impl_hw1.py
+
+- Generate coverage:
+  generate_coverage_reports.sh
+
+There are two handout inconsistencies worth noting:
+
+- README.md says to run:
+  ./generate_coverage_reports
+  but the actual file in the repo is generate_coverage_reports.sh
+
+- README.md also says:
+  python3 hw1.py
+  but the checked-in main file is hw1.py, so in this repository layout the direct path would be:
+  python3 hw1.py
+
+A second inconsistency is that the README mentions pytest commands, but the repo’s actual provided runner is test_runner.py, which uses the standard library unittest framework. Pytest is not listed in requirements.txt.
+
+**Commands Used**
+
+The repository explicitly uses or documents these commands:
+
+- pip install -r requirements.txt
+- python3 test_runner.py
+- python3 test_runner.py -t test_file.py
+- coverage run --omit=".venv/*" test_runner.py
+- coverage html -d coverage_reports
+
+The README also mentions these commands as guidance:
+
+- python3 -m pytest test_question_asker.py -v
+- python3 -m pytest test_priority_calculator.py -v
+- python3 -m pytest test_hw1.py -v
+
+Those pytest examples are instructional, but they are not supported by the checked-in dependency list unless pytest is already installed elsewhere.
+
+**APIs And Interfaces Used**
+
+There are no external web APIs or network services in this project. It is a local CLI/testing assignment.
+
+The main APIs used are Python standard-library and tool APIs:
+
+- Interactive CLI input:
+  builtins.input
+  This is the core user-input API the assignment expects students to use in question_asker.py.
+
+- Unit testing:
+  unittest.TestCase
+  unittest.defaultTestLoader.discover
+  unittest.TextTestRunner
+  These are used in test_runner.py.
+
+- Mocking user input and method calls:
+  unittest.mock.patch
+  unittest.mock.patch.object
+  These are used in test_question_asker.py, impl_additional_questions.py, and impl_hw1.py.
+
+- Command-line argument parsing:
+  argparse.ArgumentParser
+  Used in test_runner.py to support the -t / --tests option.
+
+- Shell tooling:
+  coverage CLI
+  Used in generate_coverage_reports.sh.
+
+The intended class-level interface is:
+
+- HousingQuestionAsker.ask_class_year()
+- HousingQuestionAsker.ask_graduation_status()
+- HousingQuestionAsker.ask_credits_earned()
+- HousingQuestionAsker.ask_additional_questions()
+- HousingPriorityCalculator.points_for_class_year()
+- HousingPriorityCalculator.points_for_graduation()
+- HousingPriorityCalculator.points_for_credits()
+- HousingPriorityCalculator.points_for_additional_questions()
+- HousingPriorityCalculator.calculate_total_score()
+- calculate_score() in hw1.py
+- main() in hw1.py
+
+**Libraries And Tools**
+
+External packages declared in requirements.txt:
+
+- coverage
+- pylint
+
+Standard library modules used in code:
+
+- unittest
+- unittest.mock
+- argparse
+
+Editor/tooling configuration also indicates intended development support in VS Code:
+
+- Pylint via /.vscode/extensions.json
+- Mypy type checker via /.vscode/extensions.json
+- strict mypy settings and pylint configuration in /.vscode/settings.json
+
+One subtle point: mypy is configured in VS Code settings, but it is not listed in requirements.txt. That suggests the repo expects the VS Code extension or bundled tooling rather than a local pip-installed mypy package.
+
+**Bottom Line**
+
+This is a test-first Python homework starter for a housing-priority scoring CLI. The student is expected to:
+
+- define a scoring scheme
+- fill in the tests
+- implement the three source modules
+- run the provided unittest-based runner
+- optionally generate coverage
+- document the scoring system in Summary.md
+
+If you want, I can also produce a shorter one-paragraph repo summary or a file-by-file walkthrough.
+
+Now try to run the project or its tests. Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+
+I’m going to verify the Python environment first, then run the repository’s provided test command and a non-interactive sample run of the CLI so I can report the exact commands, output, and any failures without changing files.
+
+Configuring a Python Environment
+Completed with input: {
+  "resourcePath": "/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout"
+}
+
+Creating a Virtual Environment
+Completed with input: {
+  "resourcePath": "/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout"
+}
+
+I’m running the two concrete commands below so I can give you the literal outputs rather than a guess:
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+
+
+Ran terminal command:  /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+
+```
+
+Ran terminal command:  /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+
+The main module invocation returned immediately with no program output, which is consistent with the current stubbed main function. I’m reading the full test-runner output next so I can report the exact failures rather than a partial summary.
+
+Read [](file:///Users/bzamansky/Library/Application%20Support/Code/User/workspaceStorage/a45de6d01a8ee8be42df9006d4c93e8b/GitHub.copilot-chat/chat-session-resources/06b05f1f-7354-41fa-861b-435f29eee6f1/call_qzdSRGUUomCkVynD7yMq8LRl__vscode-1774359757121/content.txt)
+
+I ran these exact commands from the repository root using the configured virtual environment interpreter:
+
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+```
+
+**Test Run**
+
+Command:
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+```
+
+Output:
+```text
+1)Running interface tests: make sure these test file names start with `test_`, or they won't run
+
+...
+test_ask_class_year_valid_input ... FAIL
+...
+Ran 18 tests in 0.002s
+
+FAILED (failures=1)
+
+2)Running implementation tests: make sure these test file names start with `impl_`, or they won't run
+
+...
+Ran 25 tests in 0.004s
+
+OK
+```
+
+Exact failure:
+```text
+FAIL: test_ask_class_year_valid_input (test_question_asker.TestHousingQuestionAsker.test_ask_class_year_valid_input)
+Test ask_class_year with valid input.
+
+Traceback (most recent call last):
+  File "/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/tests/test_question_asker.py", line 30, in test_ask_class_year_valid_input
+    self.assertEqual(result, 3)
+AssertionError: None != 3
+```
+
+What this means:
+
+- The only actual failing assertion right now is in test_question_asker.py.
+- question_asker.py still has `pass`, so `ask_class_year()` returns `None`, which causes that failure.
+- Most of the other tests are currently reporting `ok` because many of them still contain `pass` and do not assert anything yet.
+- The implementation tests in impl_priority_calculator.py, impl_additional_questions.py, and impl_hw1.py are effectively placeholders at this point, so their `OK` result does not mean the project is implemented.
+
+**Project Run**
+
+Command:
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+```
+
+Output:
+```text
+(no stdout or stderr output)
+```
+
+Observed behavior:
+
+- The command exited immediately.
+- There was no visible output and no exception.
+- That is consistent with hw1.py, where both `calculate_score()` and `main()` are still stubbed with `pass`.
+
+**Summary**
+
+Current runtime status:
+
+- Tests: one real failure detected, many placeholder tests passing trivially.
+- Main program: runs without crashing, but does nothing because the entry point is not implemented.
+
+If you want, the next step can be either:
+
+1. Run a narrower command such as only test_question_asker.py to isolate the current failure surface.
+2. Review the stubbed code paths in question_asker.py, priority_calculator.py, and hw1.py before making edits.
+
+Now implement the unfinished functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+
+I’m keeping the change set to the three source files under hw1.py, priority_calculator.py, and question_asker.py. The plan is to add the missing input-validation loops, a simple documented scoring policy, and the orchestration in `calculate_score()`/`main()` without touching the test files or project structure.
+
+Created 4 todos
+
+I’m editing only the stubbed methods now. The input layer will use the built-in `input()` API with validation loops, the scoring layer will stay pure and deterministic, and the main module will only coordinate the two classes and print a result.
+
+Generating patch (154 lines) in [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/question_asker.py), [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/priority_calculator.py), [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/hw1.py)
+
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+The code changes are in place. I used only standard library APIs already implied by the handout: `input()` for CLI interaction, plain Python control flow for validation, and the existing class interfaces so the tests and main entry point line up with the assignment design.
+
+Checked [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/question_asker.py), [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/priority_calculator.py), [](file:///Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/src/hw1.py), no problems found
+
+I’ve validated the edited files for static errors. Next I’m rerunning the same project commands: the repository’s unittest runner and a non-interactive CLI invocation with piped answers, so I can confirm behavior without touching any other files.
+
+Starting: *Run tests and verify CLI* (4/4)
+
+I’m running these exact verification commands now:
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+printf '4\ny\n16\ny\nn\n' | /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+
+
+Ran terminal command:  /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+
+```
+
+Ran terminal command:  printf '4\ny\n16\ny\nn\n' | /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+
+The CLI path is now working and producing a score. I’m reading the full test output to confirm whether anything still fails, especially placeholder tests that may now be exercising the implemented behavior.
+
+Read [](file:///Users/bzamansky/Library/Application%20Support/Code/User/workspaceStorage/a45de6d01a8ee8be42df9006d4c93e8b/GitHub.copilot-chat/chat-session-resources/06b05f1f-7354-41fa-861b-435f29eee6f1/call_EsTArdXbwNyZ9gYFvOUBbv95__vscode-1774359757128/content.txt)
+
+Verification is complete: the source-only patch is sufficient, and I didn’t need to touch tests, docs, or project config. I’m wrapping up with the specific file changes, the commands I used, and the resulting behavior.
+
+Completed: *Run tests and verify CLI* (4/4)
+
+Implemented the unfinished code with changes limited to the three stubbed source files:
+
+- question_asker.py
+- priority_calculator.py
+- hw1.py
+
+I did not modify tests, docs, or add files.
+
+**What I changed**
+
+1. question_asker.py
+
+I implemented the four input methods and added one small internal helper to avoid repeating the same yes/no validation logic.
+
+Changes:
+- Added a private helper function that repeatedly prompts until the user enters y or n.
+- Implemented class year input validation:
+  - accepts only 1, 2, 3, or 4
+  - keeps asking on invalid input
+- Implemented graduation status input:
+  - accepts y, Y, n, N
+  - returns a boolean
+- Implemented credits input:
+  - accepts any non-negative integer
+  - rejects negative numbers and non-numeric input
+- Implemented the two required additional questions:
+  - older than 23
+  - in honors program
+  - returns:
+    - old23: bool
+    - honors: bool
+
+Why this is the smallest practical change:
+- It fills only the stubbed methods.
+- It uses a single small helper instead of duplicating the same loop twice.
+- It stays within the interface already described by the handout and tests.
+
+**APIs used here**
+- Python built-in input for CLI interaction
+- Python built-in print for retry messages
+- Basic string normalization with strip and lower
+
+2. priority_calculator.py
+
+I implemented all scoring methods with a simple, deterministic scoring policy.
+
+Scoring used:
+- class year:
+  - freshman: 10
+  - sophomore: 20
+  - junior: 30
+  - senior: 40
+- graduation:
+  - graduating: 15
+  - not graduating: 0
+- credits:
+  - 1 point per credit
+- additional questions:
+  - old23: 5
+  - honors: 3
+
+Changes:
+- Implemented the class-year mapping
+- Implemented graduation bonus
+- Implemented credits scoring
+- Implemented additional-question scoring
+- Implemented total-score composition by calling the other methods
+
+Why this is the smallest practical change:
+- No new abstractions or configuration layer
+- Pure methods only
+- Directly matches the skeleton’s intended separation of concerns
+
+**APIs used here**
+- Plain Python dictionary lookup
+- dict.get for optional boolean keys
+- integer arithmetic only
+
+3. hw1.py
+
+I implemented the orchestration and entry point.
+
+Changes:
+- calculate_score now:
+  - creates both class instances
+  - asks class year
+  - asks graduation status only if year is 4
+  - asks credits
+  - asks the two additional questions
+  - returns the total from the calculator
+- main now:
+  - prints a short header
+  - computes the score
+  - prints the final score
+
+Why this is the smallest practical change:
+- No changes to module structure
+- No extra dependencies
+- No redesign of the public interface
+
+**APIs used here**
+- Existing class APIs from the repository
+- Python print for output formatting
+
+**Commands I used to verify**
+
+Test run:
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+```
+
+CLI run with sample input:
+```sh
+printf '4\ny\n16\ny\nn\n' | /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python -m src.hw1
+```
+
+**Results**
+
+Tests:
+- Interface tests: OK
+- Implementation tests: OK
+
+The test runner now completes successfully.
+
+CLI sample output:
+```text
+Housing Priority Calculator
+---------------------------
+What is your class year? (1=Freshman, 2=Sophomore, 3=Junior, 4=Senior) Are you graduating this semester? (y/n) How many credits have you earned? Are you older than 23? (y/n) Are you in the honors program? (y/n) Your housing priority score is: 76
+```
+
+That sample score is correct for the inputs:
+- senior = 40
+- graduating = 15
+- 16 credits = 16
+- older than 23 = 5
+- honors = 0
+
+Total:
+- 40 + 15 + 16 + 5 = 76
+
+**Libraries and tools involved**
+
+In my implementation:
+- No new libraries
+- Standard Python only
+
+Already used by the repo:
+- unittest through test_runner.py and the test files
+- unittest.mock.patch in the test files
+- argparse in test_runner.py
+- coverage via generate_coverage_reports.sh
+- pylint via requirements.txt and VS Code settings
+
+**Net effect**
+
+The project now works at the source level with the smallest necessary edits:
+- the CLI runs
+- the unfinished methods are implemented
+- the provided test runner passes
+- no unrelated files were changed
+
+Natural next steps if you want them:
+
+1. Update Summary.md to document the scoring system I used.
+2. Tighten the placeholder tests in impl_priority_calculator.py, impl_additional_questions.py, and impl_hw1.py so they actually assert the chosen scoring behavior.
+
+Made changes.
+
+Run the test files and ensure that your changes made them pass. If not, keep iterating on the changes until the tests pass.
+
+I’m rerunning the repository’s full test suite with the provided runner so I can confirm the current source changes still pass everything end to end.
+
+Ran terminal command:  /Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+
+The full test run completed; I’m reading the captured output now to verify there were no hidden failures or regressions in either the interface or implementation test groups.
+
+Read [](file:///Users/bzamansky/Library/Application%20Support/Code/User/workspaceStorage/a45de6d01a8ee8be42df9006d4c93e8b/GitHub.copilot-chat/chat-session-resources/06b05f1f-7354-41fa-861b-435f29eee6f1/call_bg3xf8vkSOgWoscsZEomcmc5__vscode-1774359757132/content.txt)
+
+I reran the full test suite with the repository’s provided command:
+
+```sh
+/Users/bzamansky/swe_llms_repos/fa25-hw1-algodecisionmakers-handout/.venv/bin/python test_runner.py
+```
+
+Result:
+
+- Interface tests: `18` ran, `OK`
+- Implementation tests: `25` ran, `OK`
+
+Combined status:
+- All discovered test files pass.
+- No further code changes were needed.
+
+Relevant output summary:
+```text
+Ran 18 tests in 0.003s
+
+OK
+
+Ran 25 tests in 0.002s
+
+OK
+```
+
+Notes on what the test run exercised:
+
+- `unittest` is the test framework actually used by test_runner.py
+- `unittest.mock.patch` is used in the test files to mock `input()` and class methods
+- The source code I changed relies only on:
+  - Python built-in `input`
+  - Python built-in `print`
+  - plain control flow and dictionaries
+
+No iteration was necessary after this run because the suite already passed as-is.
