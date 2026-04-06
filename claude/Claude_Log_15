@@ -1,0 +1,468 @@
+Claude Log
+
+
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+Let me explore the repository to understand its structure and purpose.
+
+Agent:Explore repository structure
+IN
+Explore this repository at /Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout and provide a comprehensive summary of:
+1. What the project does (purpose/goals)
+2. How to run it (setup, commands, scripts)
+3. Which APIs, libraries, and frameworks are used
+4. Key files and their roles
+5. Any configuration files
+
+Be thorough - read README files, package.json/requirements files, main source files, and any configuration files.
+Bash
+IN
+find /Users/salmaelotmani/SWE\ Project/fa25-hw1-algodecisionmakers-handout -type f -name "README*" -o -name "*.md" | head -20
+
+OUT
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/Summary.md
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/README.md
+Bash
+IN
+ls -la "/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout"
+
+OUT
+total 64
+drwxr-xr-x  13 salmaelotmani  staff    416 Mar 30 10:04 .
+drwxr-xr-x  11 salmaelotmani  staff    352 Mar 30 10:04 ..
+drwxr-xr-x  13 salmaelotmani  staff    416 Mar 30 10:05 .git
+drwxr-xr-x   3 salmaelotmani  staff     96 Mar 30 10:04 .github
+-rw-r--r--   1 salmaelotmani  staff   3478 Mar 30 10:04 .gitignore
+drwxr-xr-x   4 salmaelotmani  staff    128 Mar 30 10:04 .vscode
+-rwxr-xr-x   1 salmaelotmani  staff    280 Mar 30 10:04 generate_coverage_reports.sh
+-rw-r--r--   1 salmaelotmani  staff  11403 Mar 30 10:04 README.md
+-rw-r--r--   1 salmaelotmani  staff     15 Mar 30 10:04 requirements.txt
+drwxr-xr-x   5 salmaelotmani  staff    160 Mar 30 10:04 src
+-rw-r--r--   1 salmaelotmani  staff   2830 Mar 30 10:04 Summary.md
+-rw-r--r--   1 salmaelotmani  staff   1726 Mar 30 10:04 test_runner.py
+drwxr-xr-x   6 salmaelotmani  staff    192 Mar 30 10:04 tests
+Bash
+IN
+find "/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout" -type f \( -name "*.py" -o -name "requirements.txt" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" \) | sort
+
+OUT
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/.github/workflows/grade.yml
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/.vscode/extensions.json
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/.vscode/settings.json
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/requirements.txt
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/src/hw1.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/src/priority_calculator.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/src/question_asker.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/test_runner.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/tests/impl_additional_questions.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/tests/impl_hw1.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/tests/impl_priority_calculator.py
+/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/tests/test_question_asker.py
+Read priority_calculator.py
+Read impl_additional_questions.py
+Read grade.yml
+Read generate_coverage_reports.sh
+Here's a summary of the repository:
+
+Project: Housing Priority Calculator (CS2100 HW1)
+Purpose
+A TDD (Test-Driven Development) learning assignment where students build a housing priority scoring system for students. The system asks users questions about their class year, graduation status, and credits earned, then calculates a priority score to fairly allocate limited housing resources.
+
+Project Structure
+src/hw1.py — Main orchestration module
+src/question_asker.py — HousingQuestionAsker class: handles user input with validation
+src/priority_calculator.py — HousingPriorityCalculator class: computes priority scores
+tests/ — Test files (interface + implementation-specific tests)
+Summary.md — Template for documenting scoring rationale
+How to Run
+
+pip install -r requirements.txt        # Install deps
+
+python3 test_runner.py                 # Run all tests
+python3 test_runner.py -t test_hw1.py  # Run specific test file
+
+python3 hw1.py                         # Run the app manually
+
+./generate_coverage_reports.sh         # Generate HTML coverage report
+Libraries & Tools
+Library/Tool	Purpose
+unittest	Testing framework (stdlib)
+unittest.mock.patch	Mock input() calls in tests
+coverage	Code coverage measurement
+pylint	Static analysis/linting
+mypy	Type checking (strict mode, via VS Code)
+GitHub Actions	Automated grading via Pawtograder CI
+Key Design Pattern
+Separation of concerns: input validation (HousingQuestionAsker) is decoupled from scoring logic (HousingPriorityCalculator). Students must design their own point system (class year, graduation status, credits, 2 custom yes/no questions), write tests first, then implement.
+
+Now try to run the project or its tests. Before making any edits, identify the unfinished / TODO / NotImplementedError functions, and count and list exactly where they are (file and function name). Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+Let me first identify unfinished functions, then run the tests to see the output.
+
+Let me search for unfinished functions and run the tests in parallel.
+
+Grep "TODO|NotImplementedError|raise NotImplemented|pass\s*$" (in /Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout, glob: **/*.py)
+27 lines of output
+Bash Run all tests
+IN
+cd "/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout" && python3 test_runner.py 2>&1
+
+OUT
+test_ask_additional_questions_basic (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with basic y/n responses. ... ok
+test_ask_additional_questions_reverse (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with n/y responses. ... ok
+test_ask_additional_questions_uppercase (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with uppercase responses. ... ok
+test_ask_additional_questions_with_invalid_input (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with some invalid inputs. ... ok
+test_ask_class_year_freshman (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year returns 1 for freshman. ... ok
+test_ask_class_year_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with invalid input followed by valid input. ... ok
+test_ask_class_year_out_of_range_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with out-of-range inputs (0, 5) then valid input. ... ok
+test_ask_class_year_senior (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year returns 4 for senior. ... ok
+test_ask_class_year_valid_input (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with valid input. ... FAIL
+test_ask_credits_earned_high_number (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with high credit count. ... ok
+test_ask_credits_earned_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with invalid inputs followed by valid input. ... ok
+test_ask_credits_earned_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with valid input. ... ok
+test_ask_credits_earned_zero (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with zero credits. ... ok
+test_ask_graduation_status_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with invalid inputs followed by valid input. ... ok
+test_ask_graduation_status_no (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'n' input. ... ok
+test_ask_graduation_status_uppercase_no (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'N' input (uppercase). ... ok
+test_ask_graduation_status_uppercase_yes (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'Y' input (uppercase). ... ok
+test_ask_graduation_status_yes (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'y' input. ... ok
+
+======================================================================
+FAIL: test_ask_class_year_valid_input (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with valid input.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout/tests/test_question_asker.py", line 30, in test_ask_class_year_valid_input
+    self.assertEqual(result, 3)
+AssertionError: None != 3
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.002s
+
+FAILED (failures=1)
+test_ask_additional_questions_basic (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with basic y/n responses. ... ok
+test_ask_additional_questions_reverse (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with n/y responses. ... ok
+test_ask_additional_questions_uppercase (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with uppercase responses. ... ok
+test_ask_additional_questions_with_invalid_input (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with some invalid inputs. ... ok
+test_calculate_score_freshman (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a freshman (no graduation question should be asked). ... ok
+test_calculate_score_junior (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a junior (no graduation question should be asked). ... ok
+test_calculate_score_senior_graduating (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a graduating senior. ... ok
+test_calculate_score_senior_not_graduating (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a non-graduating senior. ... ok
+test_calculate_total_score_edge_cases (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score with edge cases. ... ok
+test_calculate_total_score_freshman_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a freshman scenario. ... ok
+test_calculate_total_score_senior_graduating_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a graduating senior scenario. ... ok
+test_calculate_total_score_senior_non_graduating_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a non-graduating senior scenario. ... ok
+test_points_for_additional_questions_all_false (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with all False responses. ... ok
+test_points_for_additional_questions_all_true (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with all True responses. ... ok
+test_points_for_additional_questions_mixed (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with mixed responses. ... ok
+test_points_for_class_year_freshman (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for freshman (year 1). ... ok
+test_points_for_class_year_junior (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for junior (year 3). ... ok
+test_points_for_class_year_senior (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for senior (year 4). ... ok
+test_points_for_class_year_sophomore (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for sophomore (year 2). ... ok
+test_points_for_credits_high (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with high credit count (e.g., 30). ... ok
+test_points_for_credits_low (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with low credit count (e.g., 7). ... ok
+test_points_for_credits_medium (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with medium credit count (e.g., 15). ... ok
+test_points_for_credits_zero (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with 0 credits. ... ok
+test_points_for_graduation_false (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_graduation when not graduating. ... ok
+test_points_for_graduation_true (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_graduation when graduating. ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.002s
+
+OK
+
+[1m    1)Running interface tests: make sure these test file names start with `test_`, or they won't run[0m
+
+
+[1m    2)Running implementation tests: make sure these test file names start with `impl_`, or they won't run[0m
+Now let me read the full grep output to get all the unfinished functions.
+
+Now let me read the full grep output for all unfinished functions.
+
+Read toolu_015V63fNwRrNmuhQMPN28trs.txt
+Now I have a clear picture. Let me compile the complete list of unfinished functions.
+
+Here's the complete picture:
+
+Command run
+
+python3 test_runner.py
+Test output summary
+Interface tests (test_*): 18 run, 1 FAIL, 17 pass
+Implementation tests (impl_*): 25 run, all pass (but only because they're all pass — empty tests trivially pass)
+The 1 real failure
+
+FAIL: test_ask_class_year_valid_input
+AssertionError: None != 3
+ask_class_year() returns None (i.e., pass) instead of the integer year.
+
+Unfinished / stub functions — complete list (10 total)
+Source files (src/)
+File	Function	Line
+src/question_asker.py	ask_class_year	37
+src/question_asker.py	ask_graduation_status	61
+src/question_asker.py	ask_credits_earned	82
+src/question_asker.py	ask_additional_questions	118
+src/priority_calculator.py	points_for_class_year	34
+src/priority_calculator.py	points_for_graduation	49
+src/priority_calculator.py	points_for_credits	72
+src/priority_calculator.py	points_for_additional_questions	91
+src/priority_calculator.py	calculate_total_score	127
+src/hw1.py	calculate_score	19
+src/hw1.py	main	23
+Test files (also stubs — student must fill in assertions)
+All tests in tests/impl_priority_calculator.py, tests/impl_additional_questions.py, tests/impl_hw1.py, and most in tests/test_question_asker.py are pass-only stubs with no assertions — they pass trivially but test nothing yet.
+
+test_runner.py
+is it part of the assignement to implement the tests?
+Yes. The assignment follows a strict TDD workflow:
+
+Write tests first (in the impl_* and test_* files)
+Run them — they should fail
+Then implement the source code to make them pass
+The impl_* test files are explicitly student-owned — you're expected to fill in your own scoring values and assertions based on the point system you design. Specifically:
+
+tests/impl_priority_calculator.py — you decide the point values (e.g., how many points a freshman gets vs. a senior) and write assertions for them
+tests/impl_additional_questions.py — you choose your two extra yes/no questions and test them
+tests/impl_hw1.py — integration tests that verify the full calculate_score() flow with your chosen values
+tests/test_question_asker.py — the interface tests are mostly stubbed too; many have the patch context set up but just pass instead of calling the method and asserting
+The only test file that is not student-authored is tests/test_question_asker.py — but even that one has several stubs you need to complete (lines 35, 40, 45, etc.).
+
+Now implement the unfinished/ToDo functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+Let me read all the relevant files first to understand what's there before making changes.
+
+Let me read all the source files first.
+
+Read question_asker.py
+Read priority_calculator.py
+Read hw1.py
+Now let me also read the test files to understand what exact keys/values are expected.
+
+Read test_question_asker.py
+Read impl_priority_calculator.py
+Read impl_additional_questions.py
+Read impl_hw1.py
+Now I have a clear picture. Let me implement each file one by one.
+
+Scoring system I'll use (simple, easy to reason about):
+
+points_for_class_year: Freshman=1, Sophomore=2, Junior=3, Senior=4
+points_for_graduation: graduating=5, not graduating=0
+points_for_credits: 1 point per credit (simple, 1:1)
+Additional questions: old23 (over 23? → 2 pts) and honors (honors program? → 3 pts)
+Starting with question_asker.py, I'll create functions that loop until valid input is received. For class year, I'll validate that the input is an integer between 1-4. Graduation status uses a yes/no pattern with case-insensitive checking. Credits earned needs to be a non-negative integer. The additional questions function will ask about age and honors status using the same y/n validation approach.
+
+For priority_calculator.py, I'm building the scoring functions that map each input to points based on the system I outlined.
+
+Now I'm finishing the implementation with hw1.py, which orchestrates everything by creating instances of the question asker and calculator, then running through the prompts in sequence—asking for graduation status only if the student is a senior. The main function wraps this with header and footer output. All tests pass.
+
+Now I have everything I need. Here's my plan before touching any file:
+
+Scoring system (I'll keep it simple and document it):
+
+Class year: 1 pt per year (Freshman=1 … Senior=4)
+Graduating: +5 pts, not graduating: 0
+Credits: 1 pt per credit
+old23 (over 23): +2 pts; honors (honors program): +3 pts
+Libraries used: only Python stdlib — builtins.input() for user input, unittest/unittest.mock.patch (already used by tests, no changes needed there).
+
+1. src/question_asker.py — implement the 4 input methods
+Each method uses a while True loop calling input(), validates, and returns. The patch('builtins.input', ...) in the tests replaces input() with mock values.
+
+Edit question_asker.py
+Added 8 lines
+Edit question_asker.py
+Added 6 lines
+Edit question_asker.py
+Added 8 lines
+The ask_additional_questions method uses a small helper loop (same y/n pattern repeated for each question). Keys old23 and honors match what the test comments show as examples.
+
+Edit question_asker.py
+Added 11 lines
+2. src/priority_calculator.py — implement the 5 scoring methods
+Each pass is replaced with the actual logic. calculate_total_score just adds up the four sub-methods.
+
+Edit priority_calculator.py
+Modified
+Edit priority_calculator.py
+Modified
+Edit priority_calculator.py
+Modified
+Edit priority_calculator.py
+Added 5 lines
+Edit priority_calculator.py
+Added 5 lines
+3. src/hw1.py — implement calculate_score and main
+calculate_score wires both classes together. Graduation status is only asked for seniors (year == 4), per the assignment spec. main prints a header/footer and calls it.
+
+Edit hw1.py
+Added 8 lines
+Edit hw1.py
+Added 3 lines
+Now run the tests:
+
+Bash Run all tests
+IN
+cd "/Users/salmaelotmani/SWE Project/fa25-hw1-algodecisionmakers-handout" && python3 test_runner.py 2>&1
+
+OUT
+test_ask_additional_questions_basic (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with basic y/n responses. ... ok
+test_ask_additional_questions_reverse (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with n/y responses. ... ok
+test_ask_additional_questions_uppercase (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with uppercase responses. ... ok
+test_ask_additional_questions_with_invalid_input (test_question_asker.TestHousingQuestionAsker)
+Test ask_additional_questions with some invalid inputs. ... ok
+test_ask_class_year_freshman (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year returns 1 for freshman. ... ok
+test_ask_class_year_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with invalid input followed by valid input. ... ok
+test_ask_class_year_out_of_range_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with out-of-range inputs (0, 5) then valid input. ... ok
+test_ask_class_year_senior (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year returns 4 for senior. ... ok
+test_ask_class_year_valid_input (test_question_asker.TestHousingQuestionAsker)
+Test ask_class_year with valid input. ... ok
+test_ask_credits_earned_high_number (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with high credit count. ... ok
+test_ask_credits_earned_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with invalid inputs followed by valid input. ... ok
+test_ask_credits_earned_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with valid input. ... ok
+test_ask_credits_earned_zero (test_question_asker.TestHousingQuestionAsker)
+Test ask_credits_earned with zero credits. ... ok
+test_ask_graduation_status_invalid_then_valid (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with invalid inputs followed by valid input. ... ok
+test_ask_graduation_status_no (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'n' input. ... ok
+test_ask_graduation_status_uppercase_no (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'N' input (uppercase). ... ok
+test_ask_graduation_status_uppercase_yes (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'Y' input (uppercase). ... ok
+test_ask_graduation_status_yes (test_question_asker.TestHousingQuestionAsker)
+Test ask_graduation_status with 'y' input. ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.002s
+
+OK
+test_ask_additional_questions_basic (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with basic y/n responses. ... ok
+test_ask_additional_questions_reverse (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with n/y responses. ... ok
+test_ask_additional_questions_uppercase (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with uppercase responses. ... ok
+test_ask_additional_questions_with_invalid_input (impl_additional_questions.TestAdditionalQuestions)
+Test ask_additional_questions with some invalid inputs. ... ok
+test_calculate_score_freshman (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a freshman (no graduation question should be asked). ... ok
+test_calculate_score_junior (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a junior (no graduation question should be asked). ... ok
+test_calculate_score_senior_graduating (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a graduating senior. ... ok
+test_calculate_score_senior_not_graduating (impl_hw1.TestHousingPriorityIntegration)
+Test calculate_score for a non-graduating senior. ... ok
+test_calculate_total_score_edge_cases (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score with edge cases. ... ok
+test_calculate_total_score_freshman_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a freshman scenario. ... ok
+test_calculate_total_score_senior_graduating_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a graduating senior scenario. ... ok
+test_calculate_total_score_senior_non_graduating_scenario (impl_priority_calculator.TestHousingPriorityCalculator)
+Test calculate_total_score for a non-graduating senior scenario. ... ok
+test_points_for_additional_questions_all_false (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with all False responses. ... ok
+test_points_for_additional_questions_all_true (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with all True responses. ... ok
+test_points_for_additional_questions_mixed (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_additional_questions with mixed responses. ... ok
+test_points_for_class_year_freshman (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for freshman (year 1). ... ok
+test_points_for_class_year_junior (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for junior (year 3). ... ok
+test_points_for_class_year_senior (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for senior (year 4). ... ok
+test_points_for_class_year_sophomore (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_class_year for sophomore (year 2). ... ok
+test_points_for_credits_high (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with high credit count (e.g., 30). ... ok
+test_points_for_credits_low (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with low credit count (e.g., 7). ... ok
+test_points_for_credits_medium (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with medium credit count (e.g., 15). ... ok
+test_points_for_credits_zero (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_credits with 0 credits. ... ok
+test_points_for_graduation_false (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_graduation when not graduating. ... ok
+test_points_for_graduation_true (impl_priority_calculator.TestHousingPriorityCalculator)
+Test points_for_graduation when graduating. ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.002s
+
+OK
+
+[1m    1)Running interface tests: make sure these test file names start with `test_`, or they won't run[0m
+
+Invalid input. Please enter y or n.
+Invalid input. Please enter y or n.
+
+[1m    2)Running implementation tests: make sure these test file names start with `impl_`, or they won't run[0m
+
+Invalid input. Please enter y or n.
+Invalid input. Please enter y or n.
+43/43 tests pass. The "Invalid input" lines in the output are expected — they come from the tests that feed invalid inputs like 'invalid' and 'maybe' to verify re-prompting works correctly.
+
+Summary of changes
+File	What changed
+src/question_asker.py	Replaced 4 pass stubs with while True input loops using input() and validation
+src/priority_calculator.py	Replaced 5 pass stubs with scoring logic
+src/hw1.py	Replaced 2 pass stubs with orchestration logic and print statements
+Scoring system used:
+
+Class year: 1 pt per year (1–4)
+Graduating: +5 pts, else 0
+Credits: 1 pt per credit
+Over 23: +2 pts; Honors program: +3 pts
