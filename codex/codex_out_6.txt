@@ -1,0 +1,210 @@
+
+
+Summarize repo usage
+No tasks in progress
+
+
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+
+
+
+Worked for 45s
+Project
+This repository is a course starter project for a Python command-line app that explores NASA near-Earth object data. The intended finished tool loads a CSV of NEO metadata and a JSON file of close-approach records, builds Python objects, links NEOs to their approaches, lets you inspect a single object, query approaches with filters, and optionally export results as CSV or JSON. The main entry point is main.py, and the assignment/spec is documented in README.md.
+
+One important caveat: this repo is intentionally incomplete. Core implementation files like models.py, extract.py, database.py, filters.py, and write.py still contain TODOs, so the intended CLI exists, but the full functionality is not implemented yet.
+
+How To Run
+Use Python 3.6+; the tests explicitly assume python3.
+
+Main commands:
+
+python3 main.py --help
+python3 main.py inspect --help
+python3 main.py query --help
+python3 main.py interactive --help
+Intended usage examples from the repo:
+
+python3 main.py inspect --pdes 433
+python3 main.py inspect --name Halley
+python3 main.py query --date 1969-07-29 --limit 3
+python3 main.py query --start-date 2020-01-01 --end-date 2029-12-31 --min-diameter 1 --min-distance 0.01 --max-distance 0.1 --outfile results.json
+python3 main.py interactive
+Test commands validated by the repo:
+
+python3 -m unittest --verbose tests.test_python_version
+python3 -m unittest --verbose tests.test_extract
+python3 -m unittest --verbose tests.test_database
+python3 -m unittest --verbose tests.test_query
+python3 -m unittest --verbose tests.test_limit
+python3 -m unittest --verbose tests.test_write
+APIs, Commands, Libraries
+External APIs/data sources used by the project:
+
+NASA/JPL Small-Body Database data exported to CSV, stored locally as data/neos.csv
+NASA/JPL Close Approach Data API, whose results were downloaded into data/cad.json
+The README cites the CAD API query:
+https://ssd-api.jpl.nasa.gov/cad.api?date-min=1900-01-01&date-max=2100-01-01&dist-max=1
+CLI capabilities exposed in code:
+
+inspect: look up an NEO by primary designation or name
+query: filter close approaches by date, date range, distance, velocity, diameter, and hazardous flag
+interactive: open a REPL that reuses the loaded database
+Libraries used in the codebase:
+
+Standard library only; I did not find any third-party Python packages or a requirements.txt
+Main modules imported: argparse, cmd, datetime, pathlib, shlex, sys, time, csv, json, operator, plus test-only modules like unittest, unittest.mock, io, contextlib, math, and collections
+If you want, I can also turn this into a short “repo walkthrough” by file so it’s easier to onboard to the codebase.
+
+
+Now try to run the project or its tests. Before making any edits, identify the unfinished / TODO / NotImplementedError functions, and count and list exactly where they are (file and function name). Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+
+
+
+Worked for 38s
+I did not edit any files.
+
+Unfinished Functions
+I found 17 unfinished / scaffolded functions or methods with TODO logic or an intentional NotImplementedError path.
+
+models.py (line 37) NearEarthObject.__init__
+models.py (line 56) NearEarthObject.fullname
+models.py (line 61) NearEarthObject.__str__
+models.py (line 89) CloseApproach.__init__
+models.py (line 107) CloseApproach.time_str
+models.py (line 124) CloseApproach.__str__
+extract.py (line 21) load_neos
+extract.py (line 31) load_approaches
+database.py (line 24) NEODatabase.__init__
+database.py (line 49) get_neo_by_designation
+database.py (line 65) get_neo_by_name
+database.py (line 82) query
+filters.py (line 59) AttributeFilter.get
+filters.py (line 75) create_filters
+filters.py (line 115) limit
+write.py (line 17) write_to_csv
+write.py (line 34) write_to_json
+Commands Run
+These are the exact commands I ran:
+
+python3 -V
+python3 main.py --help
+python3 main.py inspect --pdes 433
+python3 -m unittest --verbose
+Command Output
+python3 -V
+
+Python 3.9.6
+python3 main.py --help
+
+usage: main.py [-h] [--neofile NEOFILE] [--cadfile CADFILE]
+               {inspect,query,interactive} ...
+
+Explore past and future close approaches of near-Earth objects.
+
+positional arguments:
+  {inspect,query,interactive}
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --neofile NEOFILE     Path to CSV file of near-Earth objects.
+  --cadfile CADFILE     Path to JSON file of close approach data.
+python3 main.py inspect --pdes 433
+
+No matching NEOs exist in the database.
+python3 -m unittest --verbose
+
+Ran 73 tests in 1.267s
+
+FAILED (failures=50)
+Errors And Current Behavior
+The most important failures line up with the unfinished functions:
+
+load_neos() returns an empty collection, so NEO extraction tests fail and inspect cannot find 433.
+load_approaches() returns an empty collection, so close-approach extraction and most query tests fail immediately.
+get_neo_by_designation() and get_neo_by_name() both return None, so database lookup tests fail.
+limit() currently returns the original iterator unchanged, so the limit tests fail.
+write_to_csv() writes nothing, so CSV tests see no header/rows.
+write_to_json() writes nothing, so JSON tests fail with JSONDecodeError: Expecting value: line 1 column 1 (char 0).
+query() currently yields all approaches without applying filters, but because the extracted approaches are empty right now, most query tests fail earlier with expected-result size assertions.
+If you want, the next step can be a no-surprises repair plan that implements these in dependency order without touching unrelated code.
+
+
+Now implement the unfinished/ToDo functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+
+
+
+Worked for 1m 19s
+Implemented the scaffolded functions with small, local changes in models.py, extract.py, database.py, filters.py, and write.py. I didn’t create any new files or touch unrelated code.
+
+The changes were intentionally narrow:
+
+In models.py, I finished the two data classes so they coerce raw NASA fields into Python types, format the human-readable CLI strings, and expose tiny serialize() helpers for output.
+In extract.py, I wired csv.DictReader and json.load into NearEarthObject and CloseApproach construction.
+In database.py, I added simple lookup dictionaries and linked each close approach to its NEO.
+In filters.py, I kept the existing AttributeFilter pattern and added lightweight subclasses for date, distance, velocity, diameter, and hazardous filters, plus a real limit().
+In write.py, I used the new serialization helpers to emit the expected CSV header/rows and nested JSON structure.
+Libraries and APIs used stayed within what the repo already expects:
+
+Python standard library only: csv, json, operator, plus existing helpers from helpers.py
+The project continues to consume the local NASA/JPL dataset files in data/neos.csv and data/cad.json
+Commands I ran to verify:
+
+python3 -m unittest --verbose tests.test_extract tests.test_database tests.test_limit tests.test_query tests.test_write
+python3 main.py inspect --pdes 433
+python3 main.py query --date 1969-07-29 --limit 3
+python3 -m unittest --verbose
+Results:
+
+python3 -m unittest --verbose now passes all 73 tests.
+python3 main.py inspect --pdes 433 prints:
+NEO 433 (Eros) has a diameter of 16.840 km and is not potentially hazardous.
+python3 main.py query --date 1969-07-29 --limit 3 prints the expected three close approaches from the README example.
+If you want, I can do one more very small pass to polish edge-case behavior or keep it exactly as this minimal working version.
+
+
+5 files changed
++132
+-50
+Undo
+
+Review
+database.py
+extract.py
+filters.py
+models.py
+write.py
+Run the test files and ensure that your changes made them pass. If not, keep iterating on the changes until the tests pass.
+
+
+
+
+Worked for 10s
+python3 -m unittest --verbose now passes cleanly.
+
+Ran 73 tests in 2.206s
+
+OK
+I reran the full suite after the changes, and every test file passed:
+
+tests.test_data_files
+tests.test_database
+tests.test_extract
+tests.test_limit
+tests.test_python_version
+tests.test_query
+tests.test_write
+No further iteration was needed after the final patch.
+
+
+
+
+
+
+GPT-5.4
+
+Medium
+
+
+
+

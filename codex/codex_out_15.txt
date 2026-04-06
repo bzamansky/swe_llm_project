@@ -1,0 +1,180 @@
+
+
+Summarize repository overview
+No tasks in progress
+
+
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+
+
+
+Worked for 36s
+This repository is a starter handout for a Python homework called “Housing Priority Calculator.” The intended project is a small command-line app where a student answers housing-related questions, and the program computes a housing priority score. The design is intentionally split into three parts: src/question_asker.py, which gathers validated input; src/priority_calculator.py, which assigns points; and src/hw1.py, which orchestrates the flow. The assignment is also teaching test-first development: students are supposed to define a scoring system in Summary.md, write tests first, then implement the skeleton methods.
+
+To run it, install the small tool dependencies with pip install -r requirements.txt, then use python3 test_runner.py to run all tests or python3 test_runner.py -t <test_file> to run selected tests. Coverage is generated with ./generate_coverage_reports.sh, and the intended manual app entrypoint is python3 hw1.py per the README, though in this handout the real file currently lives at src/hw1.py. The custom test harness in test_runner.py uses unittest discovery to run both test_*.py and impl_*.py files under tests/.
+
+There are no external product APIs used by the student code itself. The code only uses Python’s standard library APIs like input(), print(), argparse, unittest, and unittest.mock.patch. The only non-stdlib libraries listed in requirements.txt are coverage and pylint, which support testing and linting rather than app logic. The GitHub workflow in .github/workflows/grade.yml submits to Pawtograder via the pawtograder/assignment-action, so that is the only external service integration present in the repo.
+
+
+Now try to run the project or its tests. Before making any edits, identify the unfinished / TODO / NotImplementedError functions, and count and list exactly where they are (file and function name). Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+
+
+
+Worked for 26s
+Before any edits, these are the exact commands I ran:
+
+rg -n "TODO|NotImplementedError|pass" src tests README.md Summary.md test_runner.py
+python3 test_runner.py
+python3 src/hw1.py
+There are no NotImplementedError occurrences in the repo. The unfinished executable functions/methods in src/ are 11 total:
+
+src/question_asker.py (line 18) HousingQuestionAsker.ask_class_year
+src/question_asker.py (line 39) HousingQuestionAsker.ask_graduation_status
+src/question_asker.py (line 63) HousingQuestionAsker.ask_credits_earned
+src/question_asker.py (line 84) HousingQuestionAsker.ask_additional_questions
+src/priority_calculator.py (line 13) HousingPriorityCalculator.points_for_class_year
+src/priority_calculator.py (line 36) HousingPriorityCalculator.points_for_graduation
+src/priority_calculator.py (line 51) HousingPriorityCalculator.points_for_credits
+src/priority_calculator.py (line 74) HousingPriorityCalculator.points_for_additional_questions
+src/priority_calculator.py (line 93) HousingPriorityCalculator.calculate_total_score
+src/hw1.py (line 10) calculate_score
+src/hw1.py (line 21) main
+If you also want the unfinished test methods counted, there are 42 test methods still stubbed with pass, for 53 unfinished functions/methods total across src/ and tests/.
+
+python3 test_runner.py completed with one real failure:
+
+Interface tests: 18 ran, 1 failed.
+Failing test: tests/test_question_asker.py (line 21) test_ask_class_year_valid_input
+Error:
+AssertionError: None != 3
+because ask_class_year() currently returns None.
+A notable detail from that run: almost every other test reported ok, but many of those tests are still empty stubs with pass, so they are passing without asserting anything.
+
+python3 src/hw1.py failed immediately with an import error:
+
+ModuleNotFoundError: No module named 'src'
+So the current state is:
+
+The codebase has 11 unfinished application methods in src/.
+The tests are mostly unfinished too, and many “passing” results are false confidence.
+The documented app entrypoint does not currently run from the repository root using python3 src/hw1.py because of the import path issue.
+
+Can you set up the environment so that we can run the tests and project.
+
+
+
+Worked for 1m 7s
+The environment is set up now so the repo can be run from the project root.
+
+I created a local virtual environment at .venv, installed the required packages from requirements.txt, added a root launcher at hw1.py, and updated generate_coverage_reports.sh to use .venv/bin/coverage when available.
+
+You can now use these commands from the repo root:
+
+source .venv/bin/activate
+python3 test_runner.py
+python3 hw1.py
+./generate_coverage_reports.sh
+I verified them:
+
+.venv/bin/python3 test_runner.py runs successfully as a command, but the suite still has 1 real failure: test_ask_class_year_valid_input fails because ask_class_year() still returns None.
+.venv/bin/python3 hw1.py now launches cleanly from the repo root and exits without an import error. It currently prints nothing because src/hw1.py is still a stub.
+./generate_coverage_reports.sh now works and wrote the report to coverage_reports/index.html.
+So the setup problem is fixed; the remaining failures are code-completion issues, not environment issues.
+
+
+2 files changed
++15
+-3
+Undo
+
+Review
+generate_coverage_reports.sh
+hw1.py
+Now implement the unfinished/ToDo functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+
+
+
+Worked for 41s
+Implemented the unfinished logic with small, targeted changes in src/question_asker.py, src/priority_calculator.py, and src/hw1.py. I didn’t modify the test files.
+
+In question_asker.py, I added only the input-handling needed to make the prompts work:
+
+ask_class_year() now loops until it gets an integer 1 through 4.
+ask_graduation_status() uses a tiny shared _ask_yes_no() helper so y/Y/n/N all work.
+ask_credits_earned() now accepts only non-negative integers.
+ask_additional_questions() asks exactly two yes/no questions and returns {"old23": ..., "honors": ...}.
+In priority_calculator.py, I chose a simple linear scoring system so the calculator is consistent and easy to follow:
+
+class year: year * 10
+graduation bonus: 15 if graduating, else 0
+credits: 1 point per credit
+additional questions: old23 = 5, honors = 3
+calculate_total_score() now just sums those pieces.
+In src/hw1.py, I added the minimum orchestration:
+
+instantiate the asker and calculator
+ask graduation status only when year == 4
+compute and return the total
+print a small header and the final score in main()
+I verified with:
+
+.venv/bin/python3 test_runner.py
+printf '4\ny\n16\ny\nn\n' | .venv/bin/python3 hw1.py
+.venv/bin/python3 -m unittest tests.test_question_asker
+Current result: the test runner passes, and the app runs interactively. The extra Please enter 'y' or 'n'. lines during tests are expected from the mocked invalid-input test cases.
+
+APIs, commands, and libraries used:
+
+Python standard library APIs: input(), print(), int(), dictionary .get()
+Commands used: python3, unittest, test_runner.py
+Libraries used by the project code: only Python standard library
+Tooling already set up in the repo environment: coverage and pylint in .venv
+If you want, I can make one more minimal pass to align Summary.md with the scoring system I implemented.
+
+
+3 files changed
++78
+-11
+Undo
+
+Review
+hw1.py
+priority_calculator.py
+question_asker.py
+Run the test files and ensure that your changes made them pass. If not, keep iterating on the changes until the tests pass.
+
+
+
+
+Worked for 7s
+All test files are passing now.
+
+I verified with:
+
+.venv/bin/python3 test_runner.py
+.venv/bin/python3 -m unittest discover -s tests -p 'test_*.py'
+.venv/bin/python3 -m unittest discover -s tests -p 'impl_*.py'
+Results:
+
+Interface tests: 18/18 passed
+Implementation tests: 25/25 passed
+Full runner: passed
+The only extra output is:
+
+Please enter 'y' or 'n'.
+That comes from the invalid-input test cases exercising the retry logic in src/question_asker.py. It isn’t a test failure.
+
+I didn’t need to iterate further because the first implementation pass got the suite green.
+
+
+
+
+
+
+GPT-5.4
+
+Medium
+
+
+
+

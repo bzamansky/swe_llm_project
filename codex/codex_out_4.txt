@@ -1,0 +1,347 @@
+
+
+Summarize repository usage
+No tasks in progress
+
+
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+
+
+
+Worked for 54s
+What It Is
+
+This repository is a course assignments repo for CS 769 / Advanced NLP, not one single end-user app. The top level contains four separate deliverables plus a project rubric:
+
+assignment1: a PyTorch deep averaging network sentiment classifier over SST and CFIMDB datasets, with student TODOs in the model/training pipeline. See assignment1/README.md and assignment1/main.py.
+assignment2: a “mini-BERT” assignment where students implement key BERT components, an AdamW optimizer, and a sentence classifier for SST/CFIMDB. See assignment2/README.md and assignment2/structure.md.
+assignment3: a project proposal submission spec only; no runnable code scaffold beyond the README. See assignment3/README.md.
+assignment4: a toy beam search implementation and sanity tests. See assignment4/README.md and assignment4/beam_search.py.
+project: course project report/presentation requirements only, not executable code. See project/README.md.
+One important caveat: several files still contain NotImplementedError, so this repo is intended as student starter code rather than a fully runnable finished solution.
+
+How To Run It
+
+Run each assignment from its own directory.
+
+Assignment 1:
+
+Main command: python main.py --train data/sst-train.txt --dev data/sst-dev.txt --test data/sst-test.txt ...
+Batch training entrypoint: bash run_exp.sh
+Optional setup in the script downloads GloVe with wget and unzip.
+Key files: assignment1/run_exp.sh
+Assignment 2:
+
+Environment setup: bash setup.sh
+Training/testing entrypoint: python classifier.py --option pretrain|finetune --epochs ... --lr ... --train ... --dev ... --test ...
+Batch experiment script: bash run_exp.sh
+Sanity tests: python sanity_check.py and python optimizer_test.py
+Key files: assignment2/setup.sh, assignment2/run_exp.sh
+Assignment 3:
+
+No code to run; it is a submission/report spec.
+Assignment 4:
+
+Test command: python test_beam_search.py
+Key file: assignment4/test_beam_search.py
+Project folder:
+
+No executable workflow is defined; it documents report/presentation expectations only.
+APIs, Commands, and Libraries Used
+
+Libraries used in code:
+
+torch / torch.nn / torch.utils.data
+numpy
+argparse
+sklearn.metrics
+tqdm
+requests
+filelock
+importlib_metadata
+tokenizers from Hugging Face
+standard library modules like os, json, re, time, random, zipfile
+External model/data APIs:
+
+Assignment 2 includes a local HuggingFace-style loader that calls BertModel.from_pretrained('bert-base-uncased') and BertTokenizer.from_pretrained('bert-base-uncased'). The code downloads config.json, pytorch_model.bin, and vocab.txt from Hugging Face via URLs built in assignment2/utils.py, assignment2/config.py, and assignment2/tokenizer.py.
+Assignment 1 optionally downloads GloVe embeddings from Stanford NLP.
+Common commands present in the repo:
+
+python main.py
+python classifier.py
+python sanity_check.py
+python optimizer_test.py
+python test_beam_search.py
+python prepare_submit.py
+bash run_exp.sh
+bash setup.sh
+wget ...
+unzip ...
+mkdir -p ...
+cp ...
+tee ...
+If you want, I can turn this into a cleaner “repo walkthrough” by folder and point out which pieces are complete vs. left for students to implement.
+
+
+Now try to run the project or its tests. Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+
+
+
+Worked for 24s
+I ran these exact commands, without editing any files:
+
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments"
+git status --short
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment4"
+python3 test_beam_search.py
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment2"
+python3 sanity_check.py
+python3 optimizer_test.py
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment1"
+python3 main.py --train data/sst-train.txt --dev data/sst-dev.txt --test data/sst-test.txt --dev_output /tmp/a1-dev-output.txt --test_output /tmp/a1-test-output.txt --model /tmp/a1-model.pt
+Results:
+
+git status --short
+
+Exit code: 0
+Output: no output, so the working tree appears clean.
+python3 test_beam_search.py
+
+Exit code: 1
+Output:
+Traceback (most recent call last):
+  File "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment4/test_beam_search.py", line 1, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+python3 sanity_check.py
+Exit code: 1
+Output:
+Traceback (most recent call last):
+  File "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment2/sanity_check.py", line 1, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+python3 optimizer_test.py
+Exit code: 1
+Output:
+Traceback (most recent call last):
+  File "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment2/optimizer_test.py", line 1, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+python3 main.py ...
+Exit code: 1
+Output:
+Traceback (most recent call last):
+  File "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment1/main.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+Bottom line: the repo’s runnable pieces are currently blocked immediately by a missing torch installation in the active Python environment. I did not get far enough to hit the assignment-specific NotImplementedError paths because import-time dependency resolution failed first.
+
+If you want, I can next check the local Python environment in more detail or help set up the dependencies and rerun the tests.
+
+
+can you set up the environment so that we can run the tests and project
+
+
+
+Worked for 5m 10s
+I set up a project-local virtual environment at .venv and installed the dependencies needed by the runnable assignments. I also had to pin NumPy back to 1.26.4 so PyTorch would work cleanly.
+
+Exact setup commands I ran:
+
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments"
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel numpy tqdm requests filelock importlib-metadata scikit-learn tokenizers torch
+.venv/bin/python -m pip install "numpy<2"
+Environment verification:
+
+.venv/bin/python -c "import torch, numpy, sklearn, tokenizers, requests, tqdm; print('torch', torch.__version__); print('numpy', numpy.__version__)"
+Output:
+
+torch 2.2.2
+numpy 1.26.4
+I then ran these project/test commands with the new environment:
+
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment4"
+../.venv/bin/python test_beam_search.py
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment2"
+../.venv/bin/python sanity_check.py
+../.venv/bin/python optimizer_test.py
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment1"
+../.venv/bin/python main.py --train data/sst-train.txt --dev data/sst-dev.txt --test data/sst-test.txt --dev_output /tmp/a1-dev-output.txt --test_output /tmp/a1-test-output.txt --model /tmp/a1-model.pt
+Results:
+
+assignment4/test_beam_search.py
+Traceback (most recent call last):
+  File ".../assignment4/test_beam_search.py", line 115, in <module>
+    test_topK()
+  File ".../assignment4/test_beam_search.py", line 68, in test_topK
+    pre_score, pre_beamid, pre_wordid = topK(score)
+  File ".../assignment4/beam_search.py", line 105, in topK
+    raise NotImplementedError
+NotImplementedError
+assignment2/sanity_check.py
+Traceback (most recent call last):
+  File ".../assignment2/sanity_check.py", line 24, in <module>
+    embed_outputs = bert.embed(input_ids=sent_ids)
+  File ".../assignment2/bert.py", line 167, in embed
+    embeds = inputs_embeds + tk_type_embeds + pos_embeds
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'Tensor'
+assignment2/optimizer_test.py
+Traceback (most recent call last):
+  File ".../assignment2/optimizer_test.py", line 30, in <module>
+    actual = test_optimizer(AdamW)
+  File ".../assignment2/optimizer_test.py", line 25, in test_optimizer
+    opt.step()
+  File ".../assignment2/optimizer.py", line 41, in step
+    raise NotImplementedError()
+NotImplementedError
+assignment1/main.py ...
+RUN: {'train': 'data/sst-train.txt', 'dev': 'data/sst-dev.txt', 'test': 'data/sst-test.txt', ...}
+nwords 16583 ntags 5
+Traceback (most recent call last):
+  File ".../assignment1/main.py", line 213, in <module>
+    main()
+  File ".../assignment1/main.py", line 156, in main
+    model = mn.DanModel(args, word_vocab, len(tag_vocab)).to(device)
+  File ".../assignment1/model.py", line 48, in __init__
+    self.define_model_parameters()
+  File ".../assignment1/model.py", line 60, in define_model_parameters
+    raise NotImplementedError()
+NotImplementedError
+So the environment is now set up and the tests/project entrypoints do run. The remaining failures are from unfinished starter-code TODOs in the assignments, not missing dependencies.
+
+To use this environment going forward, run commands with .venv/bin/python ... or activate it with:
+
+source .venv/bin/activate
+If you want, I can next fix the code issues one assignment at a time, starting with the smallest path to a passing test.
+
+
+Now implement the unfinished functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+
+
+
+Worked for 4m 33s
+I made the smallest targeted changes I could to fill in the starter-code TODOs, without adding any new files.
+
+The changes were:
+
+assignment4/beam_search.py
+Implemented topK, select_hiddens_by_beams, and extract_sequences.
+Used standard PyTorch tensor APIs: topk, gather, sort, view, transpose, and broadcasting.
+assignment2/bert.py
+Implemented self-attention, residual add+norm, transformer layer forward pass, and embedding assembly.
+Used PyTorch nn.Linear, LayerNorm, dropout, softmax, matmul, and GELU.
+assignment2/optimizer.py
+Implemented AdamW.step() using the repo’s intended bias correction and decoupled weight decay.
+Used the torch.optim.Optimizer API and in-place tensor updates like add_, addcmul_, and addcdiv_.
+assignment2/classifier.py
+Added the minimal classification head and forward() needed for sentence classification.
+Used the local BertModel.from_pretrained('bert-base-uncased') API already in the project.
+assignment1/main.py
+Implemented pad_sentences.
+assignment1/model.py
+Implemented the DAN model with embeddings, pooling, hidden layers, output layer, parameter init, optional pretrained embedding load, and forward().
+Used plain PyTorch nn.Embedding, nn.Linear, Dropout, ReLU, and Xavier init.
+The environment/setup commands I used were:
+
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel numpy tqdm requests filelock importlib-metadata scikit-learn tokenizers torch
+.venv/bin/python -m pip install "numpy<2"
+The verification commands I ran were:
+
+cd assignment4 && ../.venv/bin/python test_beam_search.py
+cd assignment2 && ../.venv/bin/python sanity_check.py
+cd assignment2 && ../.venv/bin/python optimizer_test.py
+cd assignment1 && ../.venv/bin/python main.py --train data/sst-train.txt --dev data/sst-dev.txt --test data/sst-test.txt --dev_output /tmp/a1-dev-output.txt --test_output /tmp/a1-test-output.txt --model /tmp/a1-model.pt
+Verified results:
+
+assignment4/test_beam_search.py: passes all tests.
+assignment2/sanity_check.py: passes.
+assignment2/optimizer_test.py: passes.
+assignment1/main.py ...: runs end-to-end, trains, saves a model, and writes dev/test outputs.
+Notable output from assignment 1:
+
+Dev best accuracy reached 0.3933
+Test accuracy printed 0.4258
+Outputs were written to /tmp/a1-dev-output.txt and /tmp/a1-test-output.txt
+One thing I did not fully wait to completion on:
+
+A one-epoch CPU smoke test for assignment2/classifier.py started successfully and downloaded tokenizer assets, but BERT-on-CPU is slow enough that it didn’t finish within the time I spent polling. Since the BERT sanity check and optimizer test both pass, the assignment 2 core implementation is in much better shape now.
+If you want, I can next run a shorter assignment 2 smoke check on a tiny subset or tune the command so we can verify the classifier path more quickly.
+
+
+6 files changed
++132
+-34
+Undo
+
+Review
+main.py
+model.py
+bert.py
+classifier.py
+optimizer.py
+beam_search.py
+Run the test files and ensure that your changes made them pass. If not, keep iterating on the changes until the tests pass.
+
+
+
+I’m rerunning the repository’s actual test files now in the project environment to confirm everything is green after the last fixes. If any one fails, I’ll keep tightening the implementation rather than stopping at partial success.
+
+Background terminal finished with ../.venv/bin/python test_beam_search.py
+
+
+Background terminal finished with ../.venv/bin/python optimizer_test.py
+
+
+Background terminal finished with ../.venv/bin/python sanity_check.py
+
+
+The three test commands are in flight. I’m polling them now and will only stop once I’ve confirmed pass/fail for each one.
+
+Worked for 29s
+All of the repository’s test files now pass.
+
+I ran these exact commands:
+
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment4"
+../.venv/bin/python test_beam_search.py
+cd "/Users/bridgetagyare/Desktop/cs598 swe     agents/project-agents/cs769-assignments/assignment2"
+../.venv/bin/python sanity_check.py
+../.venv/bin/python optimizer_test.py
+Results:
+
+Pass the test of topK() function!
+Pass the test of select_hiddens_by_beams() function!
+Pass the test of extract_sequences() function!
+Pass the test of beam_search() function!
+Your BertModel.embed() implementation is correct!
+Your BertSelfAttention implementation is correct!
+Your BertLayer implementation is correct!
+Your BERT implementation is correct!
+Optimizer test passed!
+The main libraries and APIs used in the fixes and test runs were:
+
+torch / torch.nn / torch.optim
+numpy
+local project APIs like BertModel.from_pretrained(...), BertTokenizer.from_pretrained(...), and the repo’s custom AdamW
+The main commands used were:
+
+.venv/bin/python ...
+test_beam_search.py
+sanity_check.py
+optimizer_test.py
+No further iteration was needed after the last patch because all test files exited with code 0.
+
+
+
+
+
+
+GPT-5.4
+
+Medium
+
+
+
+
