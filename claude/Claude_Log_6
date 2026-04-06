@@ -1,0 +1,586 @@
+Claude Log 
+
+
+Read this repository, summarize what the project is intended to do,how it should be run, and which APIs, commands, and libraries are used.
+Let me explore the repository to understand its structure and purpose.
+
+Agent:Explore repository structure and content
+IN
+Explore this repository at /Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter and provide a comprehensive summary of:
+1. What the project does
+2. How to run it (setup, install, run commands)
+3. Which APIs, external services, and libraries are used
+4. Key files and their purposes
+5. Any configuration or environment variables needed
+
+Read the README, requirements files, main source files, and any config files you find.
+Bash
+IN
+ls -la /Users/salmaelotmani/SWE\ Project/cd0010-advanced-python-techniques-project-starter
+
+OUT
+total 264
+drwxr-xr-x  15 salmaelotmani  staff    480 Mar 30 09:43 .
+drwxr-xr-x   9 salmaelotmani  staff    288 Mar 30 09:43 ..
+drwxr-xr-x  13 salmaelotmani  staff    416 Mar 30 09:44 .git
+drwxr-xr-x   3 salmaelotmani  staff     96 Mar 30 09:43 .github
+-rw-r--r--   1 salmaelotmani  staff     42 Mar 30 09:43 CODEOWNERS
+drwxr-xr-x   4 salmaelotmani  staff    128 Mar 30 09:43 data
+-rw-r--r--   1 salmaelotmani  staff   4111 Mar 30 09:43 database.py
+-rw-r--r--   1 salmaelotmani  staff   1288 Mar 30 09:43 extract.py
+-rw-r--r--   1 salmaelotmani  staff   5747 Mar 30 09:43 filters.py
+-rw-r--r--   1 salmaelotmani  staff   1815 Mar 30 09:43 helpers.py
+-rwxr-xr-x   1 salmaelotmani  staff  17665 Mar 30 09:43 main.py
+-rw-r--r--   1 salmaelotmani  staff   6179 Mar 30 09:43 models.py
+-rw-r--r--   1 salmaelotmani  staff  71737 Mar 30 09:43 README.md
+drwxr-xr-x  12 salmaelotmani  staff    384 Mar 30 09:43 tests
+-rw-r--r--   1 salmaelotmani  staff   1833 Mar 30 09:43 write.py
+Bash
+IN
+find /Users/salmaelotmani/SWE\ Project/cd0010-advanced-python-techniques-project-starter -maxdepth 1 -name "*.py" -o -name "*.txt" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" | head -20
+
+OUT
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/models.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/write.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/database.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/main.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/helpers.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/extract.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/filters.py
+Read models.py
+Read filters.py
+Bash
+IN
+ls -la /Users/salmaelotmani/SWE\ Project/cd0010-advanced-python-techniques-project-starter/data
+
+OUT
+total 162440
+drwxr-xr-x   4 salmaelotmani  staff       128 Mar 30 09:43 .
+drwxr-xr-x  15 salmaelotmani  staff       480 Mar 30 09:43 ..
+-rw-r--r--   1 salmaelotmani  staff  69798280 Mar 30 09:43 cad.json
+-rw-r--r--   1 salmaelotmani  staff  13368577 Mar 30 09:43 neos.csv
+Bash
+IN
+find /Users/salmaelotmani/SWE\ Project/cd0010-advanced-python-techniques-project-starter/tests -type f -name "*.py" | head -10
+
+OUT
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_python_version.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_database.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/__init__.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_query.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_data_files.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_extract.py
+/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_limit.py
+Bash
+IN
+find /Users/salmaelotmani/SWE\ Project/cd0010-advanced-python-techniques-project-starter -maxdepth 1 -type f \( -name "*.txt" -o -name "*.cfg" -o -name "*.ini" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" \)
+
+OUT
+(Bash completed with no output)
+Bash
+IN
+python3 --version
+
+OUT
+Python 3.9.6
+Read README.md (lines 351-450)
+Project Summary: Near-Earth Object (NEO) Explorer
+This is a Udacity "Advanced Python Techniques" course project — a command-line tool to search and explore asteroid/comet close approaches to Earth using NASA/JPL data.
+
+What It Does
+Users can:
+
+Inspect individual NEOs by designation (e.g., 433) or name (e.g., Halley)
+Query close approach events with filters (date range, distance, velocity, diameter, hazard status)
+Export results to CSV or JSON files
+Run interactively in a REPL shell for repeated queries
+How to Run It
+No dependencies to install — pure Python standard library only.
+
+
+# Inspect a NEO
+python3 main.py inspect --pdes 433
+python3 main.py inspect --name Halley --verbose
+
+# Query with filters
+python3 main.py query --start-date 2020-01-01 --end-date 2020-12-31 --max-distance 0.025
+python3 main.py query --min-diameter 0.5 --hazardous --limit 5 --outfile results.csv
+
+# Interactive shell
+python3 main.py interactive
+
+# Run tests
+python3 -m unittest --verbose
+Default data files are data/neos.csv (75-column NEO catalog) and data/cad.json (~406k close approach events).
+
+APIs, Libraries, and Data Sources
+Details
+Data source	NASA JPL CNEOS — SBDB API & CAD API (data pre-downloaded as local files)
+Libraries	csv, json, datetime, argparse, cmd, operator, pathlib — stdlib only
+No third-party packages	Pure Python 3.6+
+Project Structure
+The project is a scaffolded educational assignment — most implementation is left as TODO:
+
+File	Status	Purpose
+main.py	Complete (read-only)	CLI argument parsing + dispatch
+helpers.py	Complete	NASA datetime format conversion
+models.py	TODO	NearEarthObject and CloseApproach classes
+extract.py	TODO	Parse neos.csv and cad.json
+database.py	TODO	Link NEOs to approaches, query/fetch
+filters.py	TODO	Filter classes and factory function
+write.py	TODO	Write results to CSV/JSON
+tests/	Complete	Unit test suite (8 test files)
+models.py
+Now try to run the project or its tests. Before making any edits, identify the unfinished / TODO / NotImplementedError functions, and count and list exactly where they are (file and function name). Show me the exact commands you want to run, then report the output and any errors. Do not edit files yet.
+Let me read the key files to identify TODOs and NotImplementedErrors, then run the tests.
+
+Let me read all the scaffolded files and run the tests simultaneously.
+
+Read models.py
+Read extract.py
+Read database.py
+Read filters.py
+Read write.py
+Now let me run the tests:
+
+Bash Run full test suite with verbose output
+IN
+cd "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter" && python3 -m unittest --verbose 2>&1
+
+OUT
+Exit code 1
+test_data_files_are_not_empty (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_are_readable (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_are_well_formatted (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_exist (tests.test_data_files.TestDataFiles) ... ok
+test_database_construction_ensures_each_neo_has_an_approaches_attribute (tests.test_database.TestDatabase) ... ok
+test_database_construction_ensures_neos_collectively_exhaust_approaches (tests.test_database.TestDatabase) ... ok
+test_database_construction_ensures_neos_mutually_exclude_approaches (tests.test_database.TestDatabase) ... ok
+test_database_construction_links_approaches_to_neos (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_designation (tests.test_database.TestDatabase) ... FAIL
+test_get_neo_by_designation_missing (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_designation_neos_with_year (tests.test_database.TestDatabase) ... FAIL
+test_get_neo_by_name (tests.test_database.TestDatabase) ... FAIL
+test_get_neo_by_name_missing (tests.test_database.TestDatabase) ... ok
+test_approach_distance_is_float (tests.test_extract.TestLoadApproaches) ... FAIL
+test_approach_time_is_datetime (tests.test_extract.TestLoadApproaches) ... FAIL
+test_approach_velocity_is_float (tests.test_extract.TestLoadApproaches) ... FAIL
+test_approaches_are_collection (tests.test_extract.TestLoadApproaches) ... ok
+test_approaches_contain_all_elements (tests.test_extract.TestLoadApproaches) ... FAIL
+test_approaches_contain_close_approaches (tests.test_extract.TestLoadApproaches) ... FAIL
+test_adonis_is_potentially_hazardous (tests.test_extract.TestLoadNEOs) ... FAIL
+test_asclepius_has_name_no_diameter (tests.test_extract.TestLoadNEOs) ... FAIL
+test_neos_are_collection (tests.test_extract.TestLoadNEOs) ... ok
+test_neos_contain_2019_SC8_no_name_no_diameter (tests.test_extract.TestLoadNEOs) ... FAIL
+test_neos_contain_all_elements (tests.test_extract.TestLoadNEOs) ... FAIL
+test_neos_contain_near_earth_objects (tests.test_extract.TestLoadNEOs) ... FAIL
+test_limit_iterable_with_limit (tests.test_limit.TestLimit) ... FAIL
+test_limit_iterable_without_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_larger_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_matching_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_smaller_limit (tests.test_limit.TestLimit) ... FAIL
+test_limit_iterator_without_limit (tests.test_limit.TestLimit) ... ok
+test_limit_produces_an_iterable (tests.test_limit.TestLimit) ... ok
+test_python_version_is_at_least_3_6 (tests.test_python_version.TestPythonVersion) ... ok
+test_query_all (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_after_april (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_before_july (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_march (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_march_with_distance_and_velocity_bounds (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_march_with_distance_bounds_and_max_velocity (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_march_with_min_distance_and_max_distance (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_spring_with_all_bounds_and_not_potentially_hazardous_neos (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_spring_with_all_bounds_and_potentially_hazardous_neos (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_spring_with_distance_and_velocity_bounds_and_max_diameter (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_in_spring_with_distance_velocity_and_diameter_bounds (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_on_march_2 (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_on_march_2_with_max_distance (tests.test_query.TestQuery) ... FAIL
+test_query_approaches_on_march_2_with_min_distance (tests.test_query.TestQuery) ... FAIL
+test_query_with_bounds_and_a_specific_date (tests.test_query.TestQuery) ... FAIL
+test_query_with_conflicting_date_bounds (tests.test_query.TestQuery) ... ok
+test_query_with_hazardous (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_diameter (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_diameter_and_min_diameter (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_diameter_and_min_diameter_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_max_distance (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_distance_and_min_distance (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_distance_and_min_distance_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_max_velocity (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_velocity_and_min_velocity (tests.test_query.TestQuery) ... FAIL
+test_query_with_max_velocity_and_min_velocity_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_min_diameter (tests.test_query.TestQuery) ... FAIL
+test_
+
+... [20012 characters truncated] ...
+
+==========================
+FAIL: test_query_with_min_diameter (tests.test_query.TestQuery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_query.py", line 258, in test_query_with_min_diameter
+    self.assertGreater(len(expected), 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_query_with_min_distance (tests.test_query.TestQuery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_query.py", line 150, in test_query_with_min_distance
+    self.assertGreater(len(expected), 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_query_with_min_velocity (tests.test_query.TestQuery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_query.py", line 204, in test_query_with_min_velocity
+    self.assertGreater(len(expected), 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_query_with_not_hazardous (tests.test_query.TestQuery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_query.py", line 308, in test_query_with_not_hazardous
+    self.assertGreater(len(expected), 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_csv_data_has_five_rows (tests.test_write.TestWriteToCSV)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 117, in test_csv_data_has_five_rows
+    self.assertEqual(len(rows), 5)
+AssertionError: 0 != 5
+
+======================================================================
+FAIL: test_csv_data_has_header (tests.test_write.TestWriteToCSV)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 100, in test_csv_data_has_header
+    self.assertTrue(csv.Sniffer().has_header(self.value))
+_csv.Error: Could not determine delimiter
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 103, in test_csv_data_has_header
+    raise self.failureException("Unable to sniff for headers.") from err
+AssertionError: Unable to sniff for headers.
+
+======================================================================
+FAIL: test_csv_data_header_matches_requirements (tests.test_write.TestWriteToCSV)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 131, in test_csv_data_header_matches_requirements
+    self.assertGreater(len(rows), 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_json_data_has_five_elements (tests.test_write.TestWriteToJSON)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 173, in test_json_data_has_five_elements
+    data = json.load(buf)
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 175, in test_json_data_has_five_elements
+    raise self.failureException("write_to_json produced an invalid JSON document") from err
+AssertionError: write_to_json produced an invalid JSON document
+
+======================================================================
+FAIL: test_json_data_is_a_sequence (tests.test_write.TestWriteToJSON)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter/tests/test_write.py", line 165, in test_json_
+Here is the complete picture.
+
+Unfinished / TODO locations
+Command run: python3 -m unittest --verbose
+
+models.py — 4 TODOs
+Line	Function	What's missing
+37–50	NearEarthObject.__init__	Assign real values from **info (designation, name, diameter, hazardous)
+58–59	NearEarthObject.fullname (property)	Build fullname string from designation + name
+61–66	NearEarthObject.__str__	Human-readable string representation
+89–101	CloseApproach.__init__	Assign real values from **info (_designation, time via cd_to_datetime, distance, velocity)
+106–122	CloseApproach.time_str (property)	Format self.time using datetime_to_str
+124–129	CloseApproach.__str__	Human-readable string representation
+extract.py — 2 TODOs
+Line	Function	What's missing
+21–28	load_neos	Parse neos.csv and return a collection of NearEarthObjects
+31–38	load_approaches	Parse cad.json and return a collection of CloseApproaches
+database.py — 4 TODOs
+Line	Function	What's missing
+24–47	NEODatabase.__init__	Build lookup dicts; link each CloseApproach to its NEO and vice versa
+49–63	get_neo_by_designation	Look up NEO by designation string
+65–80	get_neo_by_name	Look up NEO by name string
+82–98	query	Apply filters to self._approaches before yielding
+filters.py — 2 TODOs
+Line	Function	What's missing
+75–112	create_filters	Instantiate and return filter objects for all provided criteria
+115–125	limit	Yield at most n values from the iterator
+write.py — 2 TODOs
+Line	Function	What's missing
+17–32	write_to_csv	Write close approach rows to a CSV file
+34–45	write_to_json	Write close approach list to a JSON file
+Test Results Summary
+16 passed, 57 failed out of 73 tests.
+
+Passing: data file checks, Python version, collection-type checks, conflict/edge-case queries, iterator tests that happen to pass with a bare return iterator
+Failing: everything that depends on the 14 unimplemented functions above — extracting data, looking up NEOs, applying filters, limiting results, and writing output
+Now implement the unfinished/ToDo functions with the smallest possible changes needed to get the project working. Do not create any new files unless absolutely necessary. Explain each change before or as you make it, and avoid rewriting the whole project. Explain which APIs, commands, and libraries you are using. Do not modify other files unless absolutely necessary.
+Let me implement the TODO functions one by one, in dependency order:
+
+models.py - NearEarthObject.__init__, fullname, __str__, CloseApproach.__init__, time_str, __str__
+
+extract.py - load_neos, load_approaches
+
+database.py - NEODatabase.__init__, get_neo_by_designation, get_neo_by_name, query
+
+filters.py - create_filters, limit
+
+write.py - write_to_csv, write_to_json
+
+Now I need to examine the data files to understand their structure and check what utilities are available in helpers.py.
+
+Let me first check the data format and helpers before writing any code.
+
+Read helpers.py
+Bash Inspect CSV header and JSON structure of data files
+IN
+cd "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter" && head -3 data/neos.csv && echo "---" && python3 -c "import json; d=json.load(open('data/cad.json')); print(list(d.keys())); print(d['fields']); print(d['data'][0])"
+
+OUT
+id,spkid,full_name,pdes,name,prefix,neo,pha,H,G,M1,M2,K1,K2,PC,diameter,extent,albedo,rot_per,GM,BV,UB,IR,spec_B,spec_T,H_sigma,diameter_sigma,orbit_id,epoch,epoch_mjd,epoch_cal,equinox,e,a,q,i,om,w,ma,ad,n,tp,tp_cal,per,per_y,moid,moid_ld,moid_jup,t_jup,sigma_e,sigma_a,sigma_q,sigma_i,sigma_om,sigma_w,sigma_ma,sigma_ad,sigma_n,sigma_tp,sigma_per,class,producer,data_arc,first_obs,last_obs,n_obs_used,n_del_obs_used,n_dop_obs_used,condition_code,rms,two_body,A1,A2,A3,DT
+a0000433,2000433,"   433 Eros (A898 PA)",433,Eros,,Y,N,10.4,0.46,,,,,,16.84,34.4x11.2x11.2,0.25,5.270,4.463e-04,0.921,0.531,,S,S,,0.06,"JPL 658",2459000.5,59000,20200531.0000000,J2000,.2229512647434284,1.458045729081037,1.132972589728666,10.83054121829922,304.2993259000444,178.8822959227224,271.0717325705167,1.783118868433408,.5598186418120109,2459159.351922368362,20201105.8519224,643.0654021001488,1.76061711731731,.148623,57.83961291,3.2865,4.582,9.6497E-9,2.1374E-10,1.4063E-8,1.1645E-6,3.8525E-6,4.088E-6,1.4389E-6,2.6139E-10,1.231E-10,2.5792E-6,1.414E-7,AMO,Giorgini,46330,1893-10-29,2020-09-03,8767,4,2,0,.28397,,,,,
+a0000719,2000719,"   719 Albert (A911 TB)",719,Albert,,Y,N,15.5,,,,,,,,,,5.801,,,,,S,,,,"JPL 214",2459000.5,59000,20200531.0000000,J2000,.5465584653041263,2.63860206439375,1.196451769530403,11.56748478123323,183.8669499802364,156.17633771,140.2734217745985,4.080752359257098,.2299551959241748,2458390.496728663387,20180928.9967287,1565.522355575327,4.28616661348481,.203482,79.18908994,1.41794,3.140,2.1784E-8,2.5313E-9,5.8116E-8,2.9108E-6,1.6575E-5,1.6827E-5,2.5213E-6,3.9148E-9,3.309E-10,1.0306E-5,2.2528E-6,AMO,"Otto Matic",39593,1911-10-04,2020-02-27,1874,,,0,.39148,,,,,
+---
+['signature', 'count', 'fields', 'data']
+['des', 'orbit_id', 'jd', 'cd', 'dist', 'dist_min', 'dist_max', 'v_rel', 'v_inf', 't_sigma_f', 'h']
+['170903', '105', '2415020.507669610', '1900-Jan-01 00:11', '0.0921795123769547', '0.0912006569517418', '0.0931589328621254', '16.7523040362574', '16.7505784933163', '01:00', '18.1']
+Now I have a clear picture:
+
+CSV fields I need from neos.csv:
+
+pdes (column index 3) — primary designation
+name (column index 4) — optional name
+diameter (column index 15) — optional float
+pha (column index 7) — 'Y' or 'N' for potentially hazardous
+JSON fields from cad.json:
+
+des (index 0) — designation
+
+cd (index 3) — date string for cd_to_datetime
+
+dist (index 4) — distance in AU
+
+v_rel (index 7) — relative velocity in km/s
+
+Now I need to check what the tests expect for the write functions' output format.
+
+Now let me check the test files for write expectations:
+
+Read test_write.py
+Now I have a clear picture. Let me implement each function in order:
+
+models.py:
+
+NearEarthObject.__init__: read designation, name (None if empty), diameter (float('nan') if empty), hazardous (True if 'Y')
+NearEarthObject.fullname: designation + name if it has one
+NearEarthObject.__str__: human-readable string
+CloseApproach.__init__: _designation, time (via cd_to_datetime), distance (float), velocity (float)
+CloseApproach.time_str: format the time using datetime_to_str
+CloseApproach.__str__: human-readable string
+extract.py:
+
+load_neos: read CSV with DictReader and instantiate NearEarthObject for each row using the pdes, name, diameter, and pha fields
+load_approaches: parse JSON, locate the relevant field indices for designation, close approach date, distance, and velocity, then create CloseApproach objects
+database.py:
+
+__init__: construct lookup dictionaries keyed by designation and name, then associate each approach with its corresponding NEO
+query methods:
+
+get_neo_by_designation and get_neo_by_name perform simple dictionary lookups
+query: applies all filters to each approach using a generator expression
+filters.py:
+
+Create filter subclasses for each filter type, instantiate them based on non-None arguments, and implement a limit function that yields at most n items
+write.py:
+
+write_to_csv and write_to_json handle serialization using DictWriter and json.dump respectively
+I'm realizing I can access CSV fields by name directly through DictReader, which simplifies the extraction logic.
+
+For the close approach data, I need to map the JSON fields to their column indices—des is at position 0, cd at position 3, dist at position 4, and v_rel at position 7.
+
+Now I'm checking the test files to understand what the models and extraction functions should validate.
+
+Good. I have everything I need. Let me now implement all files in dependency order.
+
+1. models.py
+The __init__ methods receive keyword args from the CSV/JSON data. I'll assign them with proper coercions. fullname and __str__ are straightforward string operations. time_str delegates to the already-imported datetime_to_str.
+
+Edit models.py
+Modified
+Edit models.py
+Removed 1 line
+Now CloseApproach.__init__ — cd_to_datetime is already imported and parses the NASA "YYYY-Mon-DD HH:MM" format into a Python datetime:
+
+Edit models.py
+Modified
+Edit models.py
+Removed 4 lines
+2. extract.py
+load_neos uses the stdlib csv.DictReader — columns accessed by name (pdes, name, pha, diameter). load_approaches uses json.load — the file has a fields key listing column names and a data key with rows, so I zip them together:
+
+Edit extract.py
+Added 8 lines
+Edit extract.py
+Added 11 lines
+3. database.py
+The constructor needs two lookup dicts (by designation and by name) and must link each CloseApproach to its matching NearEarthObject and vice versa. query needs to apply every filter:
+
+Edit database.py
+Added 7 lines
+Edit database.py
+Removed 1 line
+Edit database.py
+Removed 1 line
+Edit database.py
+Modified
+4. filters.py
+I need one AttributeFilter subclass per filterable attribute. Each overrides the get classmethod to return the right value from a CloseApproach. create_filters instantiates only the non-None ones. limit uses itertools.islice (stdlib) for clean bounded iteration:
+
+Edit filters.py
+Added 1 line
+Now add the concrete filter subclasses after the AttributeFilter class definition, then fill in create_filters and limit:
+
+Edit filters.py
+Added 30 lines
+Edit filters.py
+Added 20 lines
+limit uses itertools.islice — if n is falsy it returns the iterator unchanged:
+
+Edit filters.py
+Added 1 line
+5. write.py
+write_to_csv uses csv.DictWriter (stdlib). write_to_json uses json.dump. The test mocks write.open, so both functions just call open(filename, 'w') normally — the mock intercepts it:
+
+Edit write.py
+Added 12 lines
+Edit write.py
+Added 14 lines
+Now run the full test suite:
+
+Bash Run full test suite
+IN
+cd "/Users/salmaelotmani/SWE Project/cd0010-advanced-python-techniques-project-starter" && python3 -m unittest --verbose 2>&1
+
+OUT
+test_data_files_are_not_empty (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_are_readable (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_are_well_formatted (tests.test_data_files.TestDataFiles) ... ok
+test_data_files_exist (tests.test_data_files.TestDataFiles) ... ok
+test_database_construction_ensures_each_neo_has_an_approaches_attribute (tests.test_database.TestDatabase) ... ok
+test_database_construction_ensures_neos_collectively_exhaust_approaches (tests.test_database.TestDatabase) ... ok
+test_database_construction_ensures_neos_mutually_exclude_approaches (tests.test_database.TestDatabase) ... ok
+test_database_construction_links_approaches_to_neos (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_designation (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_designation_missing (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_designation_neos_with_year (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_name (tests.test_database.TestDatabase) ... ok
+test_get_neo_by_name_missing (tests.test_database.TestDatabase) ... ok
+test_approach_distance_is_float (tests.test_extract.TestLoadApproaches) ... ok
+test_approach_time_is_datetime (tests.test_extract.TestLoadApproaches) ... ok
+test_approach_velocity_is_float (tests.test_extract.TestLoadApproaches) ... ok
+test_approaches_are_collection (tests.test_extract.TestLoadApproaches) ... ok
+test_approaches_contain_all_elements (tests.test_extract.TestLoadApproaches) ... ok
+test_approaches_contain_close_approaches (tests.test_extract.TestLoadApproaches) ... ok
+test_adonis_is_potentially_hazardous (tests.test_extract.TestLoadNEOs) ... ok
+test_asclepius_has_name_no_diameter (tests.test_extract.TestLoadNEOs) ... ok
+test_neos_are_collection (tests.test_extract.TestLoadNEOs) ... ok
+test_neos_contain_2019_SC8_no_name_no_diameter (tests.test_extract.TestLoadNEOs) ... ok
+test_neos_contain_all_elements (tests.test_extract.TestLoadNEOs) ... ok
+test_neos_contain_near_earth_objects (tests.test_extract.TestLoadNEOs) ... ok
+test_limit_iterable_with_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterable_without_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_larger_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_matching_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_with_smaller_limit (tests.test_limit.TestLimit) ... ok
+test_limit_iterator_without_limit (tests.test_limit.TestLimit) ... ok
+test_limit_produces_an_iterable (tests.test_limit.TestLimit) ... ok
+test_python_version_is_at_least_3_6 (tests.test_python_version.TestPythonVersion) ... ok
+test_query_all (tests.test_query.TestQuery) ... ok
+test_query_approaches_after_april (tests.test_query.TestQuery) ... ok
+test_query_approaches_before_july (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_march (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_march_with_distance_and_velocity_bounds (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_march_with_distance_bounds_and_max_velocity (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_march_with_min_distance_and_max_distance (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_spring_with_all_bounds_and_not_potentially_hazardous_neos (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_spring_with_all_bounds_and_potentially_hazardous_neos (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_spring_with_distance_and_velocity_bounds_and_max_diameter (tests.test_query.TestQuery) ... ok
+test_query_approaches_in_spring_with_distance_velocity_and_diameter_bounds (tests.test_query.TestQuery) ... ok
+test_query_approaches_on_march_2 (tests.test_query.TestQuery) ... ok
+test_query_approaches_on_march_2_with_max_distance (tests.test_query.TestQuery) ... ok
+test_query_approaches_on_march_2_with_min_distance (tests.test_query.TestQuery) ... ok
+test_query_with_bounds_and_a_specific_date (tests.test_query.TestQuery) ... ok
+test_query_with_conflicting_date_bounds (tests.test_query.TestQuery) ... ok
+test_query_with_hazardous (tests.test_query.TestQuery) ... ok
+test_query_with_max_diameter (tests.test_query.TestQuery) ... ok
+test_query_with_max_diameter_and_min_diameter (tests.test_query.TestQuery) ... ok
+test_query_with_max_diameter_and_min_diameter_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_max_distance (tests.test_query.TestQuery) ... ok
+test_query_with_max_distance_and_min_distance (tests.test_query.TestQuery) ... ok
+test_query_with_max_distance_and_min_distance_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_max_velocity (tests.test_query.TestQuery) ... ok
+test_query_with_max_velocity_and_min_velocity (tests.test_query.TestQuery) ... ok
+test_query_with_max_velocity_and_min_velocity_conflicting (tests.test_query.TestQuery) ... ok
+test_query_with_min_diameter (tests.test_query.TestQuery) ... ok
+test_query_with_min_distance (tests.test_query.TestQuery) ... ok
+test_query_with_min_velocity (tests.test_query.TestQuery) ... ok
+test_query_with_not_hazardous (tests.test_query.TestQuery) ... ok
+test_csv_data_has_five_rows (tests.test_write.TestWriteToCSV) ... ok
+test_csv_data_has_header (tests.test_write.TestWriteToCSV) ... ok
+test_csv_data_header_matches_requirements (tests.test_write.TestWriteToCSV) ... ok
+test_csv_data_is_well_formed (tests.test_write.TestWriteToCSV) ... ok
+test_json_data_has_five_elements (tests.test_write.TestWriteToJSON) ... ok
+test_json_data_is_a_sequence (tests.test_write.TestWriteToJSON) ... ok
+test_json_data_is_well_formed (tests.test_write.TestWriteToJSON) ... ok
+test_json_element_decodes_to_correct_types (tests.test_write.TestWriteToJSON) ... ok
+test_json_element_has_nested_attributes (tests.test_write.TestWriteToJSON) ... ok
+test_json_element_is_associative (tests.test_write.TestWriteToJSON) ... ok
+
+----------------------------------------------------------------------
+Ran 73 tests in 1.302s
+
+OK
+73/73 tests passing.
+
+Here's a summary of every change made and what each relies on:
+
+models.py
+NearEarthObject.__init__: reads designation, name, diameter, hazardous from **info. name is set to None if the string is empty (or None). diameter uses float() if present, else float('nan'). hazardous compares to 'Y' (the CSV value).
+NearEarthObject.fullname: simple f-string — "433 (Eros)" or just "433".
+NearEarthObject.__str__: uses fullname and hazardous.
+CloseApproach.__init__: same pattern; time is parsed by cd_to_datetime (already imported from helpers.py) which calls datetime.strptime with the NASA "%Y-%b-%d %H:%M" format.
+CloseApproach.time_str: delegates to datetime_to_str (also already imported from helpers.py).
+CloseApproach.__str__: uses time_str, neo.fullname, distance, velocity.
+extract.py
+load_neos: csv.DictReader (stdlib) reads column names automatically from the CSV header; passes named kwargs to NearEarthObject.
+load_approaches: json.load (stdlib) reads the file; zip(fields, row) converts each data row into a dict keyed by the fields array from the JSON.
+database.py
+__init__: builds _by_designation and _by_name dicts (standard Python dict comprehensions) for O(1) lookup, then loops once over approaches to set approach.neo and append to neo.approaches.
+get_neo_by_designation / get_neo_by_name: one-liner dict.get() calls.
+query: adds if all(f(approach) for f in filters) guard — AttributeFilter.__call__ is the predicate.
+filters.py
+5 subclasses (DateFilter, DistanceFilter, VelocityFilter, DiameterFilter, HazardousFilter): each overrides get to extract the right attribute. DateFilter.get calls approach.time.date() so it compares date objects correctly.
+create_filters: builds a list, appending only the filters whose argument is not None. Uses operator.eq/ge/le (stdlib operator module).
+limit: uses itertools.islice (stdlib) — returns the original iterator if n is falsy, otherwise wraps it.
+write.py
+write_to_csv: csv.DictWriter (stdlib) with the already-defined fieldnames tuple. potentially_hazardous is written as a string ('True'/'False').
+write_to_json: builds a list of dicts with a nested 'neo' dict, then calls json.dump (stdlib). diameter_km stays as a Python float so JSON encodes it correctly; potentially_hazardous stays as a Python bool.
